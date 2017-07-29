@@ -42,6 +42,36 @@
             <organization>centit.com</organization>
             <organizationUrl>http://www.centit.com</organizationUrl>
         </developer>
+        <developer>
+            <name>耿衬</name>
+            <email>gc@centit.com</email>
+            <organization>centit.com</organization>
+            <organizationUrl>http://www.centit.com</organizationUrl>
+        </developer>
+        <developer>
+            <name>郑詹伟</name>
+            <email>zzw@centit.com</email>
+            <organization>centit.com</organization>
+            <organizationUrl>http://www.centit.com</organizationUrl>
+        </developer>
+        <developer>
+            <name>谢彬</name>
+            <email>xie_bin@centit.com</email>
+            <organization>centit.com</organization>
+            <organizationUrl>http://www.centit.com</organizationUrl>
+        </developer>
+        <developer>
+            <name>陆鸿博</name>
+            <email>lu_hb@centit.com</email>
+            <organization>centit.com</organization>
+            <organizationUrl>http://www.centit.com</organizationUrl>
+        </developer>
+        <developer>
+            <name>陶荣</name>
+            <email>tr@centit.com</email>
+            <organization>centit.com</organization>
+            <organizationUrl>http://www.centit.com</organizationUrl>
+        </developer>
      </developers>
 
     <scm>
