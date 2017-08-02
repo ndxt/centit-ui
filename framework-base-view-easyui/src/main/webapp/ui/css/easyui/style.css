@@ -85,6 +85,9 @@ a {
 .centit.form,  .centit.form * {
 	  box-sizing: border-box;
 }
+.centit.form,  .centit.form .textbox.textbox-readonly {
+	width: 100%!important;
+}
 .centit.form {
 	padding: 10px;
 }
