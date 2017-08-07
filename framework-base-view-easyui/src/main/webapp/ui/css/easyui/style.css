@@ -20,12 +20,14 @@ a {
 .datagrid .datagrid-pager {
 	overflow: hidden;
 }
+/*
 .datagrid-sort-desc .datagrid-sort-icon {
   padding: 0;
 }
 .datagrid-sort-asc .datagrid-sort-icon {
   padding: 0;
 }
+*/
 
 .datagrid-btable tr.ban {
 	color: #dbdbdb;
