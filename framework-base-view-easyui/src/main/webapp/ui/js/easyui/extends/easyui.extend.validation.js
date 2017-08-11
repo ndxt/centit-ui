@@ -19,7 +19,7 @@ define(
                 range: "请输入 {0} 到 {1} 之间的值",
                 max: "请输入不大于 {0} 的值",
                 min: "请输入不小于 {0} 的值",
-
+                integerRange: "请输入 {0} 到 {1} 之间的值整数",
                 ltDate: "开始时间不能大于结束时间",
                 gtDate: "结束时间不能小于开始时间",
                 phone: "您输入的手机号码格式有误，请重新输入",
@@ -28,9 +28,9 @@ define(
         };
 
         var arrayHas = function(arrays, value) {
-        	return arrays.some(function(item) {
-        		return item == value;
-        	});
+            return arrays.some(function(item) {
+                return item == value;
+            });
         };
 
 
@@ -87,77 +87,77 @@ define(
                     message: '请输入正确的日期格式，例如：2015-09-16'
                 },
                 nowtime:{
-					validator: function(value){
-		                var d1 = new Date();
-		                var d2 = $.fn.datebox.defaults.parser(value);
-		                return d2<=d1;
-		            },
-		            message: '不得大于当前日期'
-				},
-				beforetime:{
-					validator: function(value){
-		                var d1 = new Date();
-		                var d2 = $.fn.datebox.defaults.parser(value);
-		                return d2>=d1;
-		            },
-		            message: '不得小于当前日期'
-				},
-		        compare: {
-		            validator: function(value, param){
-		                var d1 = $.fn.datebox.defaults.parser($(param[0]).datebox('getValue'));
-		                var d2 = $.fn.datebox.defaults.parser(value);
-		                if(param[1] && typeof param[1] == 'string')
-		                	$.fn.validatebox.defaults.rules.compare.message =param[1];
-		                return d2>=d1;
-		            },
-		            message:'结束日期必须大于开始日期'
-		        },
+                    validator: function(value){
+                        var d1 = new Date();
+                        var d2 = $.fn.datebox.defaults.parser(value);
+                        return d2<=d1;
+                    },
+                    message: '不得大于当前日期'
+                },
+                beforetime:{
+                    validator: function(value){
+                        var d1 = new Date();
+                        var d2 = $.fn.datebox.defaults.parser(value);
+                        return d2>=d1;
+                    },
+                    message: '不得小于当前日期'
+                },
+                compare: {
+                    validator: function(value, param){
+                        var d1 = $.fn.datebox.defaults.parser($(param[0]).datebox('getValue'));
+                        var d2 = $.fn.datebox.defaults.parser(value);
+                        if(param[1] && typeof param[1] == 'string')
+                            $.fn.validatebox.defaults.rules.compare.message =param[1];
+                        return d2>=d1;
+                    },
+                    message:'结束日期必须大于开始日期'
+                },
 
                 combobox: {
-					validator: function (value) {
+                    validator: function (value) {
 
-                		if (!value) return true;
+                        if (!value) return true;
 
-                		// 本体
-                		var input = $(this).closest('.textbox').prev();
+                        // 本体
+                        var input = $(this).closest('.textbox').prev();
 
-                		// combo 未初始化
-                		if (!input.data('combo').combo) {
-                			return true;
-                		}
+                        // combo 未初始化
+                        if (!input.data('combo').combo) {
+                            return true;
+                        }
 
-                		// 配置
-                		var opts = input.data('combobox').options;
+                        // 配置
+                        var opts = input.data('combobox').options;
 
 
-                		// 下拉框数据
-                		var datas = input.combobox('getData').map(function(data) {
-                			return data[opts.valueField];
-                		});
+                        // 下拉框数据
+                        var datas = input.combobox('getData').map(function(data) {
+                            return data[opts.valueField];
+                        });
 
-                		var result;
+                        var result;
 
-                		// 多选择
-                		if (opts.multiple) {
-                			var values = input.combobox('getValues');
+                        // 多选择
+                        if (opts.multiple) {
+                            var values = input.combobox('getValues');
 
-                			result = !values.some(function(value) {
-                				return !arrayHas(datas, value);
-                			});
+                            result = !values.some(function(value) {
+                                return !arrayHas(datas, value);
+                            });
 
-                			$.fn.validatebox.defaults.rules.combobox.message = '请选择下拉框中的有效值，多个值之间用英文 , 分隔';
-                		}
-                		else {
-            				var value = input.combobox('getValue');
-                    		result = arrayHas(datas,value);
+                            $.fn.validatebox.defaults.rules.combobox.message = '请选择下拉框中的有效值，多个值之间用英文 , 分隔';
+                        }
+                        else {
+                            var value = input.combobox('getValue');
+                            result = arrayHas(datas,value);
 
-                    		$.fn.validatebox.defaults.rules.combobox.message = '请选择下拉框中的有效值';
-                		}
+                            $.fn.validatebox.defaults.rules.combobox.message = '请选择下拉框中的有效值';
+                        }
 
-                		return result;
-	                },
+                        return result;
+                    },
 
-	                message: '请选择下拉框中的有效值'
+                    message: '请选择下拉框中的有效值'
                 },
 
                 combotree: {
@@ -313,6 +313,18 @@ define(
                     message: 'QQ号码格式不正确(正确如：453384319)'
                 },
 
+                integerRange: {
+                    validator: function (value, param) {
+                        if(/^[+]?[1-9]+\d*$/i.test(value)){
+                            return value >= param[0] && value <= param[1];
+                        }else {
+                            return false
+                        }
+
+                    },
+                    message: '值在 {0} 到 {1} 之间的整数'
+                },
+
                 integer: {// 验证整数
                     validator: function (value) {
                         return /^[+]?[1-9]+\d*$/i.test(value);
@@ -378,7 +390,7 @@ define(
                 name: {// 验证姓名，可以是中文或英文
                     validator: function (value) {
                         return /^[\u0391-\uFFE5]+$/i
-                            .test(value)
+                                .test(value)
                             | /^\w+[\w\s]+\w+$/i
                                 .test(value);
                     },
