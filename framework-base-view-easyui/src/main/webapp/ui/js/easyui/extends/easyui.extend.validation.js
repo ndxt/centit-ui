@@ -54,6 +54,11 @@ define(
             missingMessage: Locale.validator.required
         });
 
+        $.extend($.fn.numberbox.defaults, {
+            tipPosition: 'top',
+            missingMessage: Locale.validator.required
+        });
+
         $.extend($.fn.combo.defaults, {
             tipPosition: 'top',
             missingMessage: Locale.validator.required
