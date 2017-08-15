@@ -7,7 +7,7 @@ define(function(require) {
 	 */
 	var FilterUserInfo = Filter.extend(function() {
 		
-		this.name = 'UsersMap';
+		this.name = 'AllUsersMap';
 		
 		// 在子类里自己去实现转换值
 		this.parseValue = function(value, textField) {
