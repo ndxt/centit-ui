@@ -19,7 +19,7 @@ body > .layout-panel-north {
 	background: url(images/header-title.png) no-repeat;
 }
 
-#currentuser{position: absolute;left: 20px;bottom:8px}
+#header>span{position: absolute;left: 20px;bottom:8px}
 
 body.full-screen #header .title {
     height: 33px;
