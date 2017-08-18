@@ -92,12 +92,28 @@ define(
                     message: '请输入正确的日期格式，例如：2015-09-16'
                 },
                 nowtime:{
-                    validator: function(value){
-                        var d1 = new Date();
-                        var d2 = $.fn.datebox.defaults.parser(value);
-                        return d2<=d1;
+                    validator: function(value,param){
+                        if (param){
+                            if(!$(param[0]).datebox('getValue')){
+                                var d1 = new Date();
+                                var d2 = $.fn.datebox.defaults.parser(value);
+                                return d2<=d1;
+                            }
+                            else{
+                                var d1 = $.fn.datebox.defaults.parser($(param[0]).datebox('getValue'));
+                                var d2 = $.fn.datebox.defaults.parser(value);
+                                return d2<=d1;
+                            }
+                        }
+                        else {
+                            var d1 = new Date();
+                            var d2 = $.fn.datebox.defaults.parser(value);
+                            return d2<=d1;
+                        }
+
+
                     },
-                    message: '不得大于当前日期'
+                    message: '请选择正确的日期'
                 },
                 beforetime:{
                     validator: function(value){
