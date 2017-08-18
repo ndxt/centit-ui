@@ -150,6 +150,9 @@ define(
 
                         // 多选择
                         if (opts.multiple) {
+                            if(!input.combobox('getValues')){
+                                return true
+                            };
                             var values = input.combobox('getValues');
 
                             result = !values.some(function(value) {
@@ -159,6 +162,9 @@ define(
                             $.fn.validatebox.defaults.rules.combobox.message = '请选择下拉框中的有效值，多个值之间用英文 , 分隔';
                         }
                         else {
+                            if(!input.combobox('getValue')){
+                                return true
+                            };
                             var value = input.combobox('getValue');
                             result = arrayHas(datas,value);
 
