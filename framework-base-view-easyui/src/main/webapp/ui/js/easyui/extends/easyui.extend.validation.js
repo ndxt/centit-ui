@@ -109,11 +109,17 @@ define(
                 },
                 compare: {
                     validator: function(value, param){
-                        var d1 = $.fn.datebox.defaults.parser($(param[0]).datebox('getValue'));
-                        var d2 = $.fn.datebox.defaults.parser(value);
-                        if(param[1] && typeof param[1] == 'string')
-                            $.fn.validatebox.defaults.rules.compare.message =param[1];
-                        return d2>=d1;
+                        if(!$(param[0]).datebox('getValue')){
+                            return true
+                        }
+                        else{
+                            var d1 = $.fn.datebox.defaults.parser($(param[0]).datebox('getValue'));
+                            var d2 = $.fn.datebox.defaults.parser(value);
+                            if(param[1] && typeof param[1] == 'string')
+                                $.fn.validatebox.defaults.rules.compare.message =param[1];
+                            return d2>=d1;
+                        }
+
                     },
                     message:'结束日期必须大于开始日期'
                 },
