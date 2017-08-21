@@ -113,7 +113,7 @@ define(
 
 
                     },
-                    message: '请选择正确的日期'
+                    message: '开始日期必须小于结束日期'
                 },
                 beforetime:{
                     validator: function(value){
