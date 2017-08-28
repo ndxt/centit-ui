@@ -54,6 +54,11 @@ define(
             missingMessage: Locale.validator.required
         });
 
+        $.extend($.fn.numberbox.defaults, {
+            tipPosition: 'top',
+            missingMessage: Locale.validator.required
+        });
+
         $.extend($.fn.combo.defaults, {
             tipPosition: 'top',
             missingMessage: Locale.validator.required
@@ -87,12 +92,28 @@ define(
                     message: '请输入正确的日期格式，例如：2015-09-16'
                 },
                 nowtime:{
-                    validator: function(value){
-                        var d1 = new Date();
-                        var d2 = $.fn.datebox.defaults.parser(value);
-                        return d2<=d1;
+                    validator: function(value,param){
+                        if (param){
+                            if(!$(param[0]).datebox('getValue')){
+                                var d1 = new Date();
+                                var d2 = $.fn.datebox.defaults.parser(value);
+                                return d2<=d1;
+                            }
+                            else{
+                                var d1 = $.fn.datebox.defaults.parser($(param[0]).datebox('getValue'));
+                                var d2 = $.fn.datebox.defaults.parser(value);
+                                return d2<=d1;
+                            }
+                        }
+                        else {
+                            var d1 = new Date();
+                            var d2 = $.fn.datebox.defaults.parser(value);
+                            return d2<=d1;
+                        }
+
+
                     },
-                    message: '不得大于当前日期'
+                    message: '开始日期必须小于结束日期'
                 },
                 beforetime:{
                     validator: function(value){
@@ -104,11 +125,17 @@ define(
                 },
                 compare: {
                     validator: function(value, param){
-                        var d1 = $.fn.datebox.defaults.parser($(param[0]).datebox('getValue'));
-                        var d2 = $.fn.datebox.defaults.parser(value);
-                        if(param[1] && typeof param[1] == 'string')
-                            $.fn.validatebox.defaults.rules.compare.message =param[1];
-                        return d2>=d1;
+                        if(!$(param[0]).datebox('getValue')){
+                            return true
+                        }
+                        else{
+                            var d1 = $.fn.datebox.defaults.parser($(param[0]).datebox('getValue'));
+                            var d2 = $.fn.datebox.defaults.parser(value);
+                            if(param[1] && typeof param[1] == 'string')
+                                $.fn.validatebox.defaults.rules.compare.message =param[1];
+                            return d2>=d1;
+                        }
+
                     },
                     message:'结束日期必须大于开始日期'
                 },
@@ -139,6 +166,9 @@ define(
 
                         // 多选择
                         if (opts.multiple) {
+                            if(!input.combobox('getValues')){
+                                return true
+                            };
                             var values = input.combobox('getValues');
 
                             result = !values.some(function(value) {
@@ -148,6 +178,9 @@ define(
                             $.fn.validatebox.defaults.rules.combobox.message = '请选择下拉框中的有效值，多个值之间用英文 , 分隔';
                         }
                         else {
+                            if(!input.combobox('getValue')){
+                                return true
+                            };
                             var value = input.combobox('getValue');
                             result = arrayHas(datas,value);
 

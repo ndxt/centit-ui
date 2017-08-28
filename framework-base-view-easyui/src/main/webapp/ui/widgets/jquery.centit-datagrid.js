@@ -833,6 +833,7 @@ define(function (require) {
             }
             var options = table.data('datagrid').options;
             override(options, 'onCheck', renderButtonEvent);
+            override(options, 'onCheckAll', renderButtonEvent);
             override(options, 'onUncheck', renderButtonEvent);
             override(options, 'onUncheckAll', renderButtonEvent);
             override(options, 'onSelect', renderButtonEvent);

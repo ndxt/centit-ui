@@ -117,6 +117,8 @@ define(function(require) {
 			document.title = Config.System.Title;
 			$('#title').text(Config.System.HeaderTitle);
 			$('#footer').text(Config.System.FooterTitle);
+            var currentusername = Cache.get('loginuser').userName;
+            $("<span>当前用户："+currentusername+"</span>").appendTo("#header");
 		}
 
 	};

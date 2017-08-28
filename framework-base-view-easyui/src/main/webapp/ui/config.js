@@ -137,7 +137,7 @@ define(function (require) {
         // 缓存初始加载，更多信息参考：loader.system.js
         Init: [
             {
-                id:'Optinfos',url:"system/cp/optinfo/R"
+                id:'Optinfos',url:"system/cp/optinfo/A"
             },
             {
                 id:'loginuser',url:"system/mainframe/currentuser"
