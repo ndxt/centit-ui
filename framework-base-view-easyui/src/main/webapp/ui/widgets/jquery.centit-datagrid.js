@@ -563,7 +563,7 @@ define(function (require) {
             return $.extend({}, $.fn.linkbutton.parseOptions(target),
                 $.fn.panel.parseOptions(target),
                 $.fn.dialog.parseOptions(target),
-                $.parser.parseOptions(target, [ 'for',
+                $.parser.parseOptions(target, [ 'for','columnOperatorText',
                     'rel', 'trigger', 'target', 'title', 'warn', 'href', 'btnValue', 'buttons','size',
                     {width: 'number', height: 'number', print: 'boolean'}
                 ]));
@@ -606,7 +606,7 @@ define(function (require) {
             if (columnButtons.length) {
                 options.operator = options.operator || "";
                 columnButtons.forEach(function(btn) {
-                    options.operator += Mustache.render('<i class="o-btn column-operation {{iconCls}}" rel="{{id}}" title="{{text}}"></i>', btn);
+                    options.operator += Mustache.render('<i class="o-btn column-operation {{iconCls}}" rel="{{id}}" title="{{text}}">{{columnOperatorText}}</i>', btn);
                 });
 
             }

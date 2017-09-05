@@ -1,5 +1,8 @@
 @charset "utf-8";
 /* CSS Document */
+.icon-text{display:inline-block;
+	height:100%;line-height: 100%;
+	padding:2px 0;}
 
 .icon-base {
 	background:url(icons/base_16.png) no-repeat;
