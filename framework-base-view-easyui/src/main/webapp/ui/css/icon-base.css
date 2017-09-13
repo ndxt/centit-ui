@@ -2,7 +2,9 @@
 /* CSS Document */
 .icon-text{display:inline-block;
 	height:100%;line-height: 100%;
-	padding:2px 0;}
+	padding:2px 0;
+	margin:auto 3px;
+}
 
 .icon-base {
 	background:url(icons/base_16.png) no-repeat;
