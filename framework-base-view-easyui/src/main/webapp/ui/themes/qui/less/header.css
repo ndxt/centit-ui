@@ -27,9 +27,11 @@ body.full-screen #header .title {
     top: 0;
     font-size: 22px;
     font-weight: bold;
+
     background: none;
     text-indent: 0;
 }
+body.full-screen #header>span{left:196px!important}
 
 /*HEADER > 工具栏*/
 #header .toolbar {
