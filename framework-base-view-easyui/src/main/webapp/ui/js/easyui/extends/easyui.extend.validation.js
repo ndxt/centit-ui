@@ -103,11 +103,11 @@ define(
                                 var d1 = $.fn.datebox.defaults.parser($(param[0]).datebox('getValue'));
                                 var d2 = $.fn.datebox.defaults.parser(value);
                                 var validateElement = $(param[0]).next('.datebox').find('.textbox-text');
-                                if((d2<=d1)&&validateElement.hasClass('validatebox-invalid')){
+                                if((d2<=d1)&&validateElement.hasClass('validatebox-invalid')){//加入第二个判断条件是为了避免死循环
                                     FncallbackAfter = function () {//验证前一个日期输入框的值
                                         validateElement.validatebox('validate')
                                     }
-                                    setTimeout("FncallbackAfter()",100)
+                                    setTimeout("FncallbackAfter()",500)//因为validateElement.validatebox('validate')的时候获取的值不是最新值，所以要设置延迟
                                 }
                                 return d2<=d1;
                             }
@@ -126,6 +126,7 @@ define(
                     validator: function(value){
                         var d1 = new Date();
                         var d2 = $.fn.datebox.defaults.parser(value);
+
                         return d2>=d1;
                     },
                     message: '不得小于当前日期'
@@ -141,11 +142,11 @@ define(
                             var validateElement = $(param[0]).next('.datebox').find('.textbox-text');
                             if(param[1] && typeof param[1] == 'string')
                                 $.fn.validatebox.defaults.rules.compare.message =param[1];
-                            if((d2>=d1)&&validateElement.hasClass('validatebox-invalid')){
+                            if((d2>=d1)&&validateElement.hasClass('validatebox-invalid')){//加入第二个判断条件是为了避免死循环
                                 FncallbackBefore = function () {//验证前一个日期输入框的值
                                     validateElement.validatebox('validate')
                                 }
-                                setTimeout("FncallbackBefore()",100)
+                                setTimeout("FncallbackBefore()",500)//因为validateElement.validatebox('validate')的时候获取的值不是最新值，所以要设置延迟
                             }
                             return d2>=d1;
                         }
