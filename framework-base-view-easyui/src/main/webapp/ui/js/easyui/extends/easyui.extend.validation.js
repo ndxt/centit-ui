@@ -102,6 +102,13 @@ define(
                             else{
                                 var d1 = $.fn.datebox.defaults.parser($(param[0]).datebox('getValue'));
                                 var d2 = $.fn.datebox.defaults.parser(value);
+                                var validateElement = $(param[0]).next('.datebox').find('.textbox-text');
+                                if((d2<=d1)&&validateElement.hasClass('validatebox-invalid')){
+                                    FncallbackAfter = function () {//验证前一个日期输入框的值
+                                        validateElement.validatebox('validate')
+                                    }
+                                    setTimeout("FncallbackAfter()",100)
+                                }
                                 return d2<=d1;
                             }
                         }
@@ -131,8 +138,15 @@ define(
                         else{
                             var d1 = $.fn.datebox.defaults.parser($(param[0]).datebox('getValue'));
                             var d2 = $.fn.datebox.defaults.parser(value);
+                            var validateElement = $(param[0]).next('.datebox').find('.textbox-text');
                             if(param[1] && typeof param[1] == 'string')
                                 $.fn.validatebox.defaults.rules.compare.message =param[1];
+                            if((d2>=d1)&&validateElement.hasClass('validatebox-invalid')){
+                                FncallbackBefore = function () {//验证前一个日期输入框的值
+                                    validateElement.validatebox('validate')
+                                }
+                                setTimeout("FncallbackBefore()",100)
+                            }
                             return d2>=d1;
                         }
 
