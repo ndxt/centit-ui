@@ -6,7 +6,7 @@
 
     <groupId>com.centit.framework</groupId>
     <artifactId>centit-ui</artifactId>
-    <version>3.0.1</version>
+    <version>3.0.1-SNAPSHOT</version>
     <packaging>pom</packaging>
     <name>com.centit.framework:centit-ui</name>
     <description>南大先腾前端框架
