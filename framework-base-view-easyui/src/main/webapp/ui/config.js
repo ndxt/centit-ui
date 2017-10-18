@@ -23,8 +23,10 @@ define(function (require) {
 
     LVB: ContextPath + 'system/cp/lvb/{{code}}',
 
+    CSRF: 'system/mainframe/login/csrf',
+
     // 用户信息
-    UserInfo: null,
+    UserInfo: 'system/mainframe/currentuser',
 
     // 用户个性化设置
     UserSetting: null,
@@ -167,7 +169,7 @@ define(function (require) {
     ]
   };
   Cache = $.extend({}, Cache, {
-    Init: _.union(Cache.Init, CustomConfig.Cache ? CustomConfig.Cache.Init : null)
+    Init: CustomConfig.Cache === false ? []: _.union(Cache.Init, CustomConfig.Cache.Init)
   });
 
   /**

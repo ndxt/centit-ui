@@ -7,12 +7,12 @@ define(function(require) {
 	 * 读用户信息
 	 */
 	var LoaderCacheUserInfo = LoaderCache.extend(function() {
-		
+
 		// csrf url
-		this.url = 'system/mainframe/login/csrf';
-		
+		this.url = Config.URL.CSRF;
+
 		this.name = "CSRF @loader.csrf.js";
-		
+
 		// csrf
 		this.convert = function(data, cache) {
 			cache.save('csrf', data);
@@ -26,6 +26,6 @@ define(function(require) {
 		}
 
 	});
-	
+
 	return new LoaderCacheUserInfo('UserInfo');
 });
