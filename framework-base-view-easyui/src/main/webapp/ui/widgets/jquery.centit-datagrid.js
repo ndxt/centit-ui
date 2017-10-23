@@ -673,6 +673,9 @@ define(function (require) {
 
                 resetBtn.on('click', function() {
                     form.form('reset');
+                  if($("a.icon-clear")){//设置清除按钮图标为不可见
+                    $("a.icon-clear").css('visibility', 'hidden');
+                  }
                 });
 
                 // 帮顶查询事件
