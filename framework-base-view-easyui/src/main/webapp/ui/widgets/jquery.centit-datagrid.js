@@ -266,6 +266,26 @@ define(function (require) {
 
       }
 
+        /**
+         * 为了能够把这样的字符串提取出来 "{{age}}slkdf {{ $total + 1 }} bbb {{name}}"
+         * @param title
+         * @param name
+         * @param value
+         */
+      function parseTitle(title, name, value) {
+        var reg =  new RegExp('\\{\\{\\s*(\\$' + name +'.*?)\\}\\}', 'i', 'g');
+
+        var match = title.match(reg);
+
+        if (match) {
+          value = (function() {
+            eval('var $' + name + '=' + value);
+            return eval(match[1])
+          })();
+          return title.replace(reg, value)
+        }
+      }
+
       var btn = {
         text: opts.text,
         iconCls: opts.iconCls,
@@ -273,7 +293,7 @@ define(function (require) {
 
           var result = _checkRows.call(table, opts.trigger, opts, $(this));
 
-          if (result == false) {
+          if (result === false) {
             $.messager.alert('提示信息', opts.warn, 'info');
             return;
           }
@@ -285,7 +305,12 @@ define(function (require) {
           var title = opts.title, url = opts.href, id = Mustache.render('dialog_{{id}}', {
             id: subCtrl.id
           });
-          if (opts.trigger == 'single') {
+
+
+          var $total = table.datagrid('getRows').length;
+          // 为了防止变量污染
+          title = parseTitle.call({}, title, 'total', $total);
+          if (opts.trigger === 'single') {
             title = Mustache.render(opts.title, result);
             url = Mustache.render(url, result);
           }
@@ -307,7 +332,7 @@ define(function (require) {
             //关闭前事件
             onBeforeClose: function () {
               var result = subCtrl.onBeforeClose.call(subCtrl, subCtrl.panel);
-              if (typeof result == 'string') {
+              if (typeof result === 'string') {
                 $.messager.alert("", result);
                 return false;
               }
