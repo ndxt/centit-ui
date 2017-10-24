@@ -299,7 +299,11 @@ define(function (require) {
             height: opts.height,
 
             // 页面加载事件
-            onLoad: subCtrl.init,
+            onLoad: function () {
+              subCtrl.$submited = false;
+              subCtrl.onClose.$injected = false;
+              subCtrl.init.apply(subCtrl, arguments)
+            },
             //关闭前事件
             onBeforeClose: function () {
               var result = subCtrl.onBeforeClose.call(subCtrl, subCtrl.panel);
@@ -311,9 +315,15 @@ define(function (require) {
             },
 
             // 关闭事件
-            onClose: function (data) {
+            onClose: function () {
+              var data;
               try {
-                subCtrl.onClose.call(subCtrl, table, data);
+                if (!subCtrl.onClose.$injected) {
+                  data = subCtrl.onClose.call(subCtrl, table);
+                }
+                else {
+                  data = subCtrl.onClose.$data;
+                }
 
                 var dialog = Dialog.dialogs[id];
                 if (!dialog) return;
@@ -328,20 +338,32 @@ define(function (require) {
               finally {
                 window.SUBMIT_BTN = null;
               }
+
+              return data;
             }
           };
 
           dialogOpts = $.extend({}, opts, dialogOpts);
 
           // 添加对话框按钮
-          addDialogButton(dialogOpts, opts, subCtrl, function () {
+          addDialogButton(dialogOpts, opts, subCtrl, function (data) {
+            subCtrl.$submited = true;
+            subCtrl.onClose.$injected = true;
+            subCtrl.onClose.$data = subCtrl.onClose.call(subCtrl, table, data);
             Dialog.close(id);
             window.SUBMIT_BTN = null;
           });
 
           addDialogTool(dialogOpts, opts, subCtrl);
 
-          Dialog.open(dialogOpts, result);
+          Dialog.open(dialogOpts, result).then(function (data) {
+            var id = subCtrl.id;
+            var afterEvents = (typeof mainCtrl.$afterEvents === 'function') ? mainCtrl.$afterEvents() : mainCtrl.$afterEvents;
+
+            if (afterEvents && (typeof afterEvents[id] === 'function')) {
+              afterEvents[id].call(mainCtrl, data, subCtrl)
+            }
+          });
         }
       };
 

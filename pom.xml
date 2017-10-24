@@ -98,11 +98,11 @@
   <!-- mvn deploy -DpomFile=pom.xml -->
 
   <distributionManagement>
-    <!--<repository>-->
-      <!--<id>ossrh</id>-->
-      <!--<name>sonatype-releases</name>-->
-      <!--<url>https://oss.sonatype.org/service/local/staging/deploy/maven2</url>-->
-    <!--</repository>-->
+    <repository>
+      <id>ossrh</id>
+      <name>sonatype-releases</name>
+      <url>https://oss.sonatype.org/service/local/staging/deploy/maven2</url>
+    </repository>
 
     <snapshotRepository>
       <id>centit-snapshots</id>
@@ -167,20 +167,20 @@
 
       <!-- GPG自动签名的插件 -->
 
-      <!--<plugin>-->
-        <!--<groupId>org.apache.maven.plugins</groupId>-->
-        <!--<artifactId>maven-gpg-plugin</artifactId>-->
-        <!--<version>1.6</version>-->
-        <!--<executions>-->
-          <!--<execution>-->
-            <!--<id>sign-artifacts</id>-->
-            <!--<phase>verify</phase>-->
-            <!--<goals>-->
-              <!--<goal>sign</goal>-->
-            <!--</goals>-->
-          <!--</execution>-->
-        <!--</executions>-->
-      <!--</plugin>-->
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-gpg-plugin</artifactId>
+        <version>1.6</version>
+        <executions>
+          <execution>
+            <id>sign-artifacts</id>
+            <phase>verify</phase>
+            <goals>
+              <goal>sign</goal>
+            </goals>
+          </execution>
+        </executions>
+      </plugin>
 
       <!-- sonatype release :
           mvn nexus-staging:release -->
