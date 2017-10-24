@@ -33,7 +33,6 @@ define(function (require) {
         	else {
         		var inputlist = $(Mustache.render(template, {inputs:data,classname:_classname,name:_name}));
     		 	_obj.after(inputlist);
-            	$.parser.parse(inputlist);
         	}
         });
     };
