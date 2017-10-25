@@ -12,13 +12,13 @@ define(function (require) {
 //			Dictionary: 'data/dictionary/{{code}}.json',
 //
 //			// 用户信息
-// 			UserInfo: 'data/user.json',
+			UserInfo: 'data/user.json',
 //
 //			// 用户个性化设置
 //			UserSetting: 'data/user-setting.json',
 //
 //			// 首页菜单
-//       Menu: 'data/menu.json',
+      Menu: 'data/menu.json',
 //
 //			// 注销
 //			Logout: 'login.html',
