@@ -92,6 +92,7 @@
 
   <modules>
     <module>framework-base-view-easyui</module>
+    <module>centit-ui-api</module>
   </modules>
 
 
