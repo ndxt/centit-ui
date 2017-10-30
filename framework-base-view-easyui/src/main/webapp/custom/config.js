@@ -1,10 +1,10 @@
 define(function (require) {
-  return {
+    return {
 
-    /**
-     *  用户链接配置信息
-     */
-    URL: {
+        /**
+         *  用户链接配置信息
+         */
+        URL: {
 // 			// 首页
 //    		Dashboard: window.ContextPath + 'modules/sys/schedule/schedule.jsp'
 //
@@ -23,13 +23,13 @@ define(function (require) {
 //			// 注销
 //			Logout: 'login.html',
 
-      CSRF: null
-    },
+            CSRF: null
+        },
 
-    /**
-     * 主题相关配置
-     */
-    Theme: {
+        /**
+         * 主题相关配置
+         */
+        Theme: {
 //             // 默认主题
 //             DefaultTheme: 'qui',
 //
@@ -50,12 +50,12 @@ define(function (require) {
 //
 //             // 模板路径
 //             Template: null
-    },
+        },
 
-    /**
-     * 菜单相关配置项
-     */
-    Menu: {
+        /**
+         * 菜单相关配置项
+         */
+        Menu: {
 //        	// 菜单数据加载器，可以处理传入的菜单数据
 //            Loader: null,
 //
@@ -65,53 +65,82 @@ define(function (require) {
 //            // 菜单大图标，在使用混合型菜单时设定
 //            LargeIcons: null,
 //
-      // 首页配置
-      Dashboard: {
-        // 首页ID
-        id: 'Dashboard',
+            // 首页配置
+            Dashboard: {
+                // 首页ID
+                id: 'Dashboard',
 
-        // 首页标特
-        text: '我的首页',
+                // 首页标特
+                text: '我的首页',
 
-        // 首页图标
-        icon: 'icon-base icon-base-home',
+                // 首页图标
+                icon: 'icon-base icon-base-home',
 
-        // 首页链接
+                // 首页链接
 //              url: URL.Dashboard,
 
-        // 打开方式
+                // 打开方式
 //              external: false,
 
-        // 是否可以被关闭
-        closable: false
-      }
-    },
+                // 是否可以被关闭
+                closable: false
+            }
+        },
 
-    /**
-     * 数据字典配置项
-     */
-    Dictionary: {
-      // 缓存数据字段，数组保存需要缓存的数据字典Code，更多信息参考：loader.dictionary.js
-      //Init: ['OptType', 'OptLevel']
-    },
+        /**
+         * 数据字典配置项
+         */
+        Dictionary: {
+            // 缓存数据字段，数组保存需要缓存的数据字典Code，更多信息参考：loader.dictionary.js
+            //Init: ['OptType', 'OptLevel']
+        },
 
-    /**
-     * 初始化缓存
-     */
-    Cache: false,
+        /**
+         * 初始化缓存
+         */
+        Cache: {
+//             Init: [
+//                 {
+//                     id: 'Optinfos', url: "system/cp/optinfo/A"
+//                 },
+//                 {
+//                     id: 'loginuser', url: "system/mainframe/currentuser"
+//                 },
+//                 {
+//                     id: 'Units', url: 'system/cp/allunits/A',
+//                     key: 'unitCode'
+//                 },
+//                 {
+//                     id: 'Roles', url: 'system/cp/roleinfo/G',
+//                     //                	   loader: function(data) {return data ? data.objList : data;},
+//                     key: 'roleCode'
+//                 },
+//                 {
+//                     id: 'Users', url: 'system/cp/alluser/T',
+//                     //                	   loader: function(data) {return data ? data.objList : data;},
+//                     key: 'userCode'
+//                 },
+//                 {
+//                     id: 'AllUsers', url: 'system/cp/alluser/A',
+// //                	   loader: function(data) {return data ? data.objList : data;},
+//                     key: 'userCode'
+//                 }
+//
+//             ]
+        },
 
-    /**
-     * 系统相关配置
-     */
-    System: {
+        /**
+         * 系统相关配置
+         */
+        System: {
 //     		// 系统title
-      Title: '南大先腾',
+            Title: '南大先腾',
 
-      // 系统头部title
-      HeaderTitle: '我的系统标题',
+            // 系统头部title
+            HeaderTitle: '我的系统标题',
 
-      // 系统尾部title
-      FooterTitle: '项目的技术服务信息',
+            // 系统尾部title
+            FooterTitle: '项目的技术服务信息',
 //
 //            // 首页加载时缓冲动画效果
 //            LoadingAnimation: true,
@@ -127,6 +156,6 @@ define(function (require) {
 //
 //            // 使用easyui布局
 //            EasyUI: true
-    }
-  };
+        }
+    };
 });
