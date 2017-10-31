@@ -29,6 +29,7 @@ define(function (require) {
     if (!dialog) return;
 
     var op = dialog.data('options');
+    op = $.extend({}, op);
 
     // 刷新新的url
     if (url) {
@@ -371,10 +372,12 @@ define(function (require) {
           }
         }
       }
+      else {
+        // 创建对话框
+        dialog = createDialog(options);
+        dialog.data('params', data);
+      }
 
-      // 创建对话框
-      dialog = createDialog(options);
-      dialog.data('params', data);
     });
   }
 
