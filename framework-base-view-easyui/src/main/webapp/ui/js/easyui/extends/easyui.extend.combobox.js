@@ -1,4 +1,4 @@
-define(['jquery', 'core/core', 'config', 'plugins/mustache.min', 'core/cache', 'core/cache.dictionary', 'easyUI'], 
+define(['jquery', 'core/core', 'config', 'plugins/mustache.min', 'core/cache', 'core/cache.dictionary', 'easyUI'],
 	function($, Core, Config, Mustache, Cache, DictionaryCache) {
 
 	$.fn.combo.defaults.inputEvents.keyup = function(e) {
@@ -53,14 +53,22 @@ define(['jquery', 'core/core', 'config', 'plugins/mustache.min', 'core/cache', '
 
 					var combo = $.data(this, 'combo');
 					if (combo) {
-						combo.options.onChange = function(){
-							var icon = t.textbox('getIcon',0);
-							if ($(this).combo("getValue")){
-								icon.css('visibility','visible');
-							} else {
-								icon.css('visibility','hidden');
-							}
-						}
+					  var originOnChange = combo.options.onChange;
+            if (!originOnChange.injected) {
+              combo.options.onChange = function() {
+
+                (typeof originOnChange === 'function') && originOnChange.apply(this, arguments);
+
+                var icon = t.textbox('getIcon',0);
+                if ($(this).combo("getValue")){
+                  icon.css('visibility','visible');
+                } else {
+                  icon.css('visibility','hidden');
+                }
+              }
+
+              combo.options.onChange.injected = true
+            }
 					}
 				});
 			}
@@ -69,7 +77,7 @@ define(['jquery', 'core/core', 'config', 'plugins/mustache.min', 'core/cache', '
 	$.fn.combo.defaults.onTextChange = function(v, e) {
 		// console.log('changed', v);
 	};
-	
+
 	/**
 	 * 加载数据函数
 	 */
@@ -81,7 +89,7 @@ define(['jquery', 'core/core', 'config', 'plugins/mustache.min', 'core/cache', '
 		}
 
 		var type = opts.target;
-    	
+
     	switch(type) {
     		case 'dictionary':
     			return loader4Dictionary.call(combobox, opts, params, success, error);
@@ -97,7 +105,7 @@ define(['jquery', 'core/core', 'config', 'plugins/mustache.min', 'core/cache', '
 			case 'cache':
     			return loader4Cache.call(combobox, opts, params, success, error);
     	}
-    	
+
     	if (!opts.url) return;
     	Core.ajax(opts.url, {
     		data: params
@@ -107,15 +115,15 @@ define(['jquery', 'core/core', 'config', 'plugins/mustache.min', 'core/cache', '
             error.apply(combobox, arguments);
         });
     };
-    
+
     /**
      * 加载数据字典数据
      */
     var loader4Dictionary = function(options, params, success, error) {
     	var key = options.key;
-    	
+
     	var data = DictionaryCache.get(key);
-    	
+
     	// 没有数据字典缓存数据
     	if (!data) {
     		Core.ajax(Mustache.render(Config.URL.Dictionary, {
@@ -132,16 +140,16 @@ define(['jquery', 'core/core', 'config', 'plugins/mustache.min', 'core/cache', '
     		success(data);
     	}
     };
-    
+
     /**
      * 缓存
      */
     var loader4Cache = function(options, params, success, error) {
     	var url = options.url, key = options.key;
-    	
+
     	var data = Cache.get(key);
     	var cacheUrl = {Units:'system/cp/allunits/A',
-    					Roles : 'system/cp/roleinfo/G',  
+    					Roles : 'system/cp/roleinfo/G',
     					Users :'system/cp/alluser/A'};
     	// 没有缓存数据
     	if (!data) {
@@ -165,18 +173,18 @@ define(['jquery', 'core/core', 'config', 'plugins/mustache.min', 'core/cache', '
 			var opts=$(this).combobox("options");
 			return row[opts.textField].has(q) || row[opts.valueField].has(q);
 		},
-		
+
 		selectOnNavigation: false,
-		
+
 		validType: 'combobox',
-		
+
 		method: 'get',
-		
+
 		onBeforeLoad: function(param) {
 			var opts = $.parser.parseOptions(this, ['target', 'key']);
 			var fieldOpts = $.parser.parseOptions(this, ['valueField', 'textField']);
 			var comboboxOptions = $.data(this, 'combobox').options;
-			
+
 			// 根据不同类型有不同的 valueField 和 textField
             if (opts.target) {
             	switch(opts.target) {
@@ -198,14 +206,14 @@ define(['jquery', 'core/core', 'config', 'plugins/mustache.min', 'core/cache', '
             			break;
             	}
             }
-            
+
             // 如果节点上有 dataCode 或 dataValue 以指定的为准，否则使用默认值
             $.extend(comboboxOptions, opts, fieldOpts);
 		},
-		
+
 		loader : loader
 	});
-	
-	
-	
+
+
+
 });

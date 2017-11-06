@@ -417,7 +417,7 @@ define(function (require) {
     dialogs: {},
 
     defaults: {
-      hotKey: true,
+      hotKey: false,
       width: 320,
       height: 240,
       modal: true,
