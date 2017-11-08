@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport"
+        content="width=device-width, initial-scale=1, maximum-scale=1">
+  <link rel="stylesheet" href="/static/layui/css/layui.css">
+  <style type="text/css">
+    /*body{
+      background-image:url(/static/images/login-bg.png);
+    }*/
+    .login {
+      padding-top: 15%;
+      width: 26%;
+    }
+
+    .btn-center{
+      text-center:center;
+      margin:0 auto;
+    }
+  </style>
+  <title>框架登录页面</title>
+</head>
+<body>
+  <p class="clear box layui-main login">
+
+    <form class="layui-form layui-form-pane1" action="/framework/login" method="post">
+      <p class="layui-form-item">
+        <label class="layui-form-label">用户名：</label>
+        <p class="layui-input-block">
+          <input type="text" name="username" lay-verify="uname" required
+                 placeholder="请输入用户名" autocomplete="off" class="layui-input">${UnameErrMsg?if_exists}
+        </p>
+      </p>
+      <p class="layui-form-item">
+        <label class="layui-form-label">密码：</label>
+        <p class="layui-input-block">
+          <input type="password" name="password" lay-verify="" required
+                 placeholder="请输入密码" autocomplete="off" class="layui-input">${PwdErrMsg?if_exists}
+        </p>
+      </p>
+      <input type="hidden"  name="LOCAL_LANG" id="LOCAL_LANG"  value="zh_CN"  />
+      <input type="hidden" name="_csrf" id="csrfInput" value="csrf" />
+      <p class="layui-form-item">
+        <label class="layui-form-label"></label>
+        <button class="layui-btn layui-btn-normal btn-center" type="submit">登录</button>
+      </p>
+    </form>
+  </p>
+
+  <script src="/static/layui/layui.js"></script>
+  <script language="JavaScript">
+      fetch('/framework/system/mainframe/csrf',{}).then(function (response) {
+          if (response.ok) {
+              response.json().then(function (data) {
+                  document.getElementById("csrfInput").value = data.data.token;
+                  console.log(data.data.token);
+              });
+          }
+      });
+  </script>
+
+</body>
+</html>
