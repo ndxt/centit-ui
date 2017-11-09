@@ -50,7 +50,7 @@
 
   <script src="/static/layui/layui.js"></script>
   <script language="JavaScript">
-      fetch('/framework/system/mainframe/csrf',{}).then(function (response) {
+      fetch('/framework/system/mainframe/csrf', {credentials: 'include'}).then(function (response) {
           if (response.ok) {
               response.json().then(function (data) {
                   document.getElementById("csrfInput").value = data.data.token;
