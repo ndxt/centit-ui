@@ -102,15 +102,15 @@ define(function (require) {
                     if (opts.trigger == 'single') {
                         title = Mustache.render(opts.title, result);
                     }
-                    
+
                     var dialogOpts = {
                         id: id,
 	                    title: title,
-	
+
 	                    href: opts.href,
 	                    width: opts.width,
 	                    height: opts.height,
-	
+
 	                    // 提交按钮
 	                    okValue: opts.btnValue,
 	                    ok: function () {
@@ -118,7 +118,7 @@ define(function (require) {
 	                            Dialog.close(id);
 	                        });
 	                    },
-	
+
 	                    // 页面加载事件
 	                    onLoad: subCtrl.init,
 	                    //关闭前事件
@@ -126,7 +126,7 @@ define(function (require) {
 	                    	var result = subCtrl.onBeforeClose.call(subCtrl, subCtrl.panel);
 	                    	if(typeof result =='string'){
 	                    		$.messager.alert("",result);
-	                    		return false;	
+	                    		return false;
 	                    	}
 	                    	return result;
 	                    },
@@ -222,12 +222,12 @@ define(function (require) {
             else if (opts.target == 'custom') {
                 btn = parseCustomButton.call(table, opts, mainCtrl, subCtrl);
             }
-            
+
             btn = $.extend({}, opts, btn, {
             	id: 'datagrid_toolbar_'+opts.rel,
             	controller: subCtrl
             });
-            
+
             // 弹出框width和height属性和按钮本身的属性名字重复，在工具栏内按钮的高度和宽度基本固定，所以在解析完弹出框后删除这2个属性
             delete btn.width;
             delete btn.height;
@@ -237,9 +237,9 @@ define(function (require) {
 
         var _parseButtonOptions = function (target) {
             var t = $(t);
-            return $.extend({}, $.fn.linkbutton.parseOptions(target), 
-        		$.fn.panel.parseOptions(target), 
-        		$.fn.dialog.parseOptions(target), 
+            return $.extend({}, $.fn.linkbutton.parseOptions(target),
+        		$.fn.panel.parseOptions(target),
+        		$.fn.dialog.parseOptions(target),
             	$.parser.parseOptions(target, [
                 'rel', 'trigger', 'target', 'title', 'warn', 'href', 'btnValue','size','sizeMode',
                 {width: 'number', height: 'number'}
@@ -267,7 +267,7 @@ define(function (require) {
 
             // 在初始化的时候无法得到btn的dom对象，先暂存在map中，等渲染完后根据id重新获得，添加根据选中表格数据情况改变按钮不同状态
             table.data('buttons', btnMap);
-            
+
             toolbar.remove();
 
             return buttons;
@@ -281,38 +281,52 @@ define(function (require) {
 
             if (search.length) {
                 var form = search.find('form'), searchBtn = search.find('.btn-search');
+              //Enter键触发查询
+              search.keydown(function (e) {
+                if (13 == e.keyCode) {
+                  searchFn();
+                }
+              });
 
                 // 帮顶查询事件
                 searchBtn.on('click', function () {
-                    table.treegrid('load', form.form('value'));
+                  searchFn();
                 });
             }
+          var searchFn = function () {
+            var isValid = form.form('validate');
+            if (isValid) {
+              table.treegrid('load', form.form('value'));
+            }
+          };
         };
-        
+
+
+
         // 初始化编辑
         var enableEdit = function (opts) {
             var table = $(this);
-            
+
             var trigger = opts.editTrigger;
-            
+
             if (['onClickCell', 'onDblClickCell'].indexOf(trigger) > -1) {
             	var oldFn = opts[trigger];
-            	
+
             	opts[trigger] = function(field, row) {
             		table.ctreegrid('beginEdit', field, row);
-            		
+
             		if (oldFn) {
             			oldFn.apply(table, arguments);
             		}
             	}
             }
-            
+
             bindEndEditEvent.call(table, opts.controller);
         };
-        
+
         function bindEndEditEvent(ctrl) {
         	var table = this;
-        
+
         	// 点击文档其他位置关闭编辑
         	$(document).off('click.'+ctrl.id).on('click.'+ctrl.id, function(e) {
         		var panel = table.datagrid('getPanel').find('.datagrid-view');
@@ -320,13 +334,13 @@ define(function (require) {
 	        		table.ctreegrid('endEdit');
         		}
         	});
-        	
+
         	// 当panel关闭时取消事件
         	if (ctrl.panel) {
     			var panel = ctrl.panel.data('panel'), opts = panel.options;
     			var disattachEndEditEvent = panel.disattachEndEditEvent;
     			var oldOnBeforeClose = opts.onBeforeClose;
-    			
+
     			// 防止重复绑定
     			if (!disattachEndEditEvent) {
     				if (oldOnBeforeClose) {
@@ -340,12 +354,12 @@ define(function (require) {
         					$(document).off('click.'+ctrl.id);
         				}
         			}
-    				
+
         			panel.disattachEndEditEvent = true;
     			}
     		}
         }
-        
+
         /**
          * 处理工具栏按钮禁用、启用
          */
@@ -353,36 +367,36 @@ define(function (require) {
         	table = $(table);
         	var panel = table.datagrid('getPanel');
         	var buttonOpts = table.data('buttons');
-        	
+
         	var buttons = panel.find('.datagrid-toolbar a').each(function() {
         		var btn = $(this);
-        		
+
         		var opts = buttonOpts[btn.attr('id')];
         		if (opts) {
         			btn.data('trigger', opts.trigger);
         			btn.data('controller', opts.controller);
         		}
         	});
-        	
+
         	table.data('datagrid').options.onSelect = renderButtonEvent;
         	table.data('datagrid').options.onSelectAll = renderButtonEvent;
         	table.data('datagrid').options.onUnselect = renderButtonEvent;
         	table.data('datagrid').options.onUnselectAll = renderButtonEvent;
         	table.data('datagrid').options.onLoadSuccess = renderButtonEvent;
-        	
+
         	renderButtonEvent.call(table);
         }
-        
+
         function renderButtonEvent() {
         	var table = $(this), panel = table.datagrid('getPanel');
         	var rows = table.datagrid('getSelections');
-        	
+
         	panel.find('.datagrid-toolbar a').each(function() {
         		var btn = $(this), trigger = btn.data('trigger'), renderButton = btn.data('controller').renderButton;
         		var result;
-        		
+
         		btn.linkbutton('enable');
-        		
+
         		// 什么也没有选择
         		if (trigger == 'none') {
         			renderButton && (result = renderButton(btn));
@@ -398,7 +412,7 @@ define(function (require) {
         		else {
         			btn.linkbutton('disable');
         		}
-        		
+
         		if (result === true) {
         			btn.linkbutton('enable');
         		}
@@ -407,10 +421,10 @@ define(function (require) {
         		}
         	});
         }
-        
+
         function renderContextMenu(table, opts) {
         	table = $(table);
-        
+
         	opts.onRowContextMenu = function(e, index, row) {
         		e.preventDefault();
         		table.treegrid('select', row[opts.idField]);
@@ -433,21 +447,21 @@ define(function (require) {
             	if (parseInt(opts.layoutH)) {
             		opts.layoutH = parseInt(opts.layoutH);
             	}
-            	
+
                 opts.height = Core.height(opts.layoutH);
             }
 
             if (opts.editable) {
                 enableEdit.call(target, opts);
             }
-            
+
             renderContextMenu(target, opts);
 
             $(target).treegrid(opts).data('ctreegrid', {
                 options: opts,
                 editIndex: -1
             });
-            
+
             renderButton(target);
         };
 
@@ -489,7 +503,7 @@ define(function (require) {
         };
 
         $.fn.ctreegrid.defaults = {
-        	width: '100%',	
+        	width: '100%',
             method: 'get',
             autoRowHeight: false,
             pagination: false,
@@ -517,7 +531,7 @@ define(function (require) {
             beginEdit: function (field, row) {
                 var jq = $(this);
                 var target = jq.data('ctreegrid'), opts = target.options, editIndex = target.editIndex;
-                
+
                 var id = row[opts.idField];
 
                 // 开始编辑前校验，增加支持点击cell时的校验
@@ -546,7 +560,7 @@ define(function (require) {
                 // 重新设定编辑对象的index
                 target.editIndex = id;
             },
-            
+
             // 聚焦编辑对象
             focusEditor: function (id, field) {
             	var jq = $(this);
@@ -568,7 +582,7 @@ define(function (require) {
                     ($(ed.target).data('textbox') ? $(ed.target).textbox('textbox') : $(ed.target)).focus();
                 }
             },
-            
+
             // 聚焦错误对象
             focusInvalidEditor: function(index) {
             	var tr = $.data(this, "datagrid").options.finder.getTr(this, index);
