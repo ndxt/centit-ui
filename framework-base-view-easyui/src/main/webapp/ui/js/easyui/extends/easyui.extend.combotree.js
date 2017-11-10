@@ -223,6 +223,10 @@ define(['jquery', 'core/core', 'core/utils', 'config', 'plugins/mustache.min', '
         return this[parentField] == p[valueField];
       });
 
+      filter(tree, function (node) {
+        return node.isValid === 'F'
+      });
+
       return tree;
 
     };
@@ -270,6 +274,22 @@ define(['jquery', 'core/core', 'core/utils', 'config', 'plugins/mustache.min', '
 
     function clone(data) {
       return JSON.parse(JSON.stringify(data));
+    }
+    /**
+     * 过滤掉禁用的机构
+     */
+    function filter(arr, callback) {
+      if (!arr) return;
+      var length = arr.length;
+
+      while (--length >= 0) {
+        var node = arr[length];
+        if (callback(node)) {
+          arr.splice(length, 1)
+        }
+
+        filter(node.children, callback)
+      }
     }
 
     $.extend(true, $.fn.combotree.defaults, {
