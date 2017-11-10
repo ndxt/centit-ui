@@ -378,11 +378,29 @@ define(function (require) {
         		}
         	});
 
-        	table.data('datagrid').options.onSelect = renderButtonEvent;
-        	table.data('datagrid').options.onSelectAll = renderButtonEvent;
-        	table.data('datagrid').options.onUnselect = renderButtonEvent;
-        	table.data('datagrid').options.onUnselectAll = renderButtonEvent;
-        	table.data('datagrid').options.onLoadSuccess = renderButtonEvent;
+        	table.data('treegrid').options.onSelect = renderButtonEvent;
+        	table.data('treegrid').options.onSelectAll = renderButtonEvent;
+        	table.data('treegrid').options.onUnselect = renderButtonEvent;
+        	table.data('treegrid').options.onUnselectAll = renderButtonEvent;
+        	table.data('treegrid').options.onLoadSuccess = renderButtonEvent;
+
+          var oldLoadSuccess = table.data('treegrid').options.onLoadSuccess;
+          table.data('treegrid').options.onLoadSuccess = function () {
+            if (oldLoadSuccess) {
+              oldLoadSuccess.call(this);
+            }
+
+            var table = $(this),
+              options = table.datagrid('options'),
+              panel = table.datagrid('getPanel');
+
+            //鼠标放在列上会显示title
+            if(options.showTitle='true'){
+              $('.datagrid-view').parent().find('.datagrid-body .datagrid-cell').each(function(){
+                $(this).attr('title',$(this).text());
+              });
+            }
+          };
 
         	renderButtonEvent.call(table);
         }
@@ -496,8 +514,8 @@ define(function (require) {
 
         $.fn.ctreegrid.parseOptions = function (target) {
             var t = $(t);
-            return $.extend({}, $.fn.datagrid.parseOptions(target), $.parser.parseOptions(target, [
-                'toolbar', 'search', 'layoutH', 'editTrigger',
+            return $.extend({}, $.fn.treegrid.parseOptions(target), $.parser.parseOptions(target, [
+                'toolbar', 'search', 'layoutH', 'editTrigger','showTitle',
                 {editable: 'boolean',largeWidth: 'number',largeHeight: 'number',mediumWidth: 'number',mediumHeight: 'number',smallWidth: 'number',smallHeight: 'number'}
             ]));
         };
@@ -516,6 +534,7 @@ define(function (require) {
             mediumHeight: 0.6,
             smallWidth: 0.4,
             smallHeight: 0.4,
+            showTitle:true,
             editable: false, editTrigger: 'onDblClickCell',
             loadFilter: function (data) {
                 if (data.data) {

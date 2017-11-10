@@ -978,6 +978,14 @@ define(function (require) {
         }
 
         renderButtonEvent.call(this);
+
+        //鼠标放在列上会显示title
+        if(options.showTitle='true'){
+          $('.datagrid-view').parent().find('.datagrid-body .datagrid-cell').each(function(){
+            $(this).attr('title',$(this).text());
+          });
+        }
+
       };
 
       renderButtonEvent.call(table);
@@ -1129,7 +1137,7 @@ define(function (require) {
     $.fn.cdatagrid.parseOptions = function (target) {
       var t = $(t);
       return $.extend({}, $.fn.datagrid.parseOptions(target), $.parser.parseOptions(target, [
-        'toolbar', 'search', 'layoutH', 'editTrigger', 'action', 'sizeMode',
+        'toolbar', 'search', 'layoutH', 'editTrigger', 'action', 'sizeMode','showTitle',
         {
           editable: 'boolean',
           largeWidth: 'number',
@@ -1156,6 +1164,7 @@ define(function (require) {
       mediumHeight: 0.6,
       smallWidth: 0.4,
       smallHeight: 0.4,
+      showTitle:true,
       singleSelect: true,
       checkOnSelect: true, selectOnCheck: true,
       editable: false, editTrigger: 'onDblClickCell',
