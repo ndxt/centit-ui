@@ -979,13 +979,6 @@ define(function (require) {
 
         renderButtonEvent.call(this);
 
-        //鼠标放在列上会显示title
-        if(options.showTitle='true'){
-          $('.datagrid-view').parent().find('.datagrid-body .datagrid-cell').each(function(){
-            $(this).attr('title',$(this).text());
-          });
-        }
-
       };
 
       renderButtonEvent.call(table);
@@ -1051,6 +1044,23 @@ define(function (require) {
       }
     }
 
+    function showTitle(_table) {
+        var table;
+        _table? table = $(_table):table = $(this);
+
+        var oldLoadSuccess = table.data('datagrid').options.onLoadSuccess;
+        table.data('datagrid').options.onLoadSuccess = function () {
+            if (oldLoadSuccess) {
+              oldLoadSuccess.call(this);
+            }
+          $('.datagrid-view').parent().find('.datagrid-body .datagrid-cell').each(function(){
+            $(this).attr('title',$(this).text());
+          });
+
+
+        }
+    }
+
     // 构建表格
     var buildGrid = function (target) {
       var opts = $.data(target, 'cdatagrid').options;
@@ -1100,9 +1110,15 @@ define(function (require) {
         editIndex: -1
       });
 
+
+
+
       renderButton(target);
 
       bindDefaultAction(target, opts);
+      if (opts.showTitle){
+        showTitle.call(target)
+      }
     };
 
     $.fn.cdatagrid = function (options, param) {

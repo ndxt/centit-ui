@@ -431,6 +431,24 @@ define(function (require) {
       }
     }
 
+    //鼠标放在列上显示title
+    function showTitle(_table) {
+      var table;
+      _table? table = $(_table):table = $(this);
+
+      var oldLoadSuccess = table.data('treegrid').options.onLoadSuccess;
+      table.data('treegrid').options.onLoadSuccess = function () {
+        if (oldLoadSuccess) {
+          oldLoadSuccess.call(this);
+        }
+        $('.datagrid-view').parent().find('.datagrid-body .datagrid-cell').each(function(){
+          $(this).attr('title',$(this).text());
+        });
+
+
+      }
+    }
+
     // 构建表格
     var buildGrid = function (target) {
       var opts = $.data(target, 'ctreegrid').options;
@@ -461,6 +479,10 @@ define(function (require) {
         options: opts,
         editIndex: -1
       });
+
+      if (opts.showTitle){
+        showTitle.call(target)
+      }
 
       renderButton(target);
     };
@@ -497,7 +519,7 @@ define(function (require) {
     $.fn.ctreegrid.parseOptions = function (target) {
       var t = $(t);
       return $.extend({}, $.fn.datagrid.parseOptions(target), $.parser.parseOptions(target, [
-        'toolbar', 'search', 'layoutH', 'editTrigger',
+        'toolbar', 'search', 'layoutH', 'editTrigger','showTitle',
         {editable: 'boolean',largeWidth: 'number',largeHeight: 'number',mediumWidth: 'number',mediumHeight: 'number',smallWidth: 'number',smallHeight: 'number'}
       ]));
     };
@@ -516,6 +538,7 @@ define(function (require) {
       mediumHeight: 0.6,
       smallWidth: 0.4,
       smallHeight: 0.4,
+      showTitle:'true',
       editable: false, editTrigger: 'onDblClickCell',
       loadFilter: function (data) {
         if (data.data) {
