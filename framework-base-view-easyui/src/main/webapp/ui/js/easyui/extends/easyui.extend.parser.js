@@ -9,7 +9,7 @@ define([
 	$.parser.plugins = $.parser.plugins.concat(['ccombobox','radio','checkbox']);
 
 	// 扩展panel加载时显示loading，在控制器load结束后才fade loading
-	if (Config.panelLoading) {
+	if (Config.System.panelLoading) {
     $.parser.parse = extendParse($.parser.parse);
   }
 
