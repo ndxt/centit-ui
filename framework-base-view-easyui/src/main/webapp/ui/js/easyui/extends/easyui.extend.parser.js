@@ -1,4 +1,22 @@
-define(['jquery', 'easyUI','widgets/widget.easyui-radio','widgets/widget.easyui-checkbox'], function($, Core) {
+define([
+  'jquery',
+  'config',
+  'plugins/loading',
+  'easyUI',
+  'widgets/widget.easyui-radio',
+  'widgets/widget.easyui-checkbox'
+], function($, Config, Loading) {
 	$.parser.plugins = $.parser.plugins.concat(['ccombobox','radio','checkbox']);
-	
+
+	// 扩展panel加载时显示loading，在控制器load结束后才fade loading
+	if (Config.panelLoading) {
+    $.parser.parse = extendParse($.parser.parse);
+  }
+
+  function extendParse(parse) {
+	  return function(context) {
+      Loading.add(context);
+      parse(context);
+    }
+  }
 });
