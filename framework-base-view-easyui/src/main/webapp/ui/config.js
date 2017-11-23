@@ -201,6 +201,8 @@ define(function (require) {
     // 首页加载时缓冲动画效果
     LoadingAnimation: true,
 
+    panelLoading: true,
+
     AjaxSend: function (event, state, options) {
       console.log(options.url, options.type);
 
