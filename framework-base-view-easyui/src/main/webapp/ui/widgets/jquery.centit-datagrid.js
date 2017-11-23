@@ -5,6 +5,7 @@ define(function (require) {
   var $ = require('jquery');
   var Core = require('core/core');
   var Dialog = require('centit/centit.dialog');
+  var Loading = require('plugins/loading');
 
   // 特殊需要实例化
   var FilterCache = require('core/filter/filter.cache');
@@ -979,6 +980,7 @@ define(function (require) {
 
         renderButtonEvent.call(this);
 
+        Loading.pop();
       };
 
       renderButtonEvent.call(table);

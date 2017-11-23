@@ -201,37 +201,40 @@ define(function (require) {
     // 首页加载时缓冲动画效果
     LoadingAnimation: true,
 
-    AjaxSend: function () {
+    AjaxSend: function (event, state, options) {
+      console.log(options.url, options.type);
 
-      window.ajaxCount = window.ajaxCount || 0;
-      window.ajaxCount++;
+      if (['POST', 'PUT', 'DELETE'].indexOf(options.type) > -1) {
+        window.ajaxCount = window.ajaxCount || 0;
+        window.ajaxCount++;
+        $('#ajax-loader').show();
 
-      $('#ajax-loader').show();
+        var btn = $(window.SUBMIT_BTN);
 
-      var btn = $(window.SUBMIT_BTN);
+        if (btn.length) {
+          btn.linkbutton('disable');
 
-      if (btn.length) {
-        btn.linkbutton('disable');
-
-        // 默认2秒恢复
-        setTimeout(function () {
-          btn.linkbutton('enable')
-          window.SUBMIT_BTN = null;
-        }, 2000)
+          // 默认2秒恢复
+          setTimeout(function () {
+            btn.linkbutton('enable');
+            window.SUBMIT_BTN = null;
+          }, 2000)
+        }
       }
     },
 
-    AjaxComplete: function () {
+    AjaxComplete: function (event, state, options) {
+      if (['POST', 'PUT', 'DELETE'].indexOf(options.type) > -1) {
+        if (--window.ajaxCount <= 0) {
+          $('#ajax-loader').hide();
+        }
 
-      if (--window.ajaxCount <= 0) {
-        $('#ajax-loader').hide();
+        var btn = $(window.SUBMIT_BTN);
+        if (btn.length) {
+          btn.linkbutton('enable')
+        }
+        window.SUBMIT_BTN = null;
       }
-
-      var btn = $(window.SUBMIT_BTN);
-      if (btn.length) {
-        btn.linkbutton('enable')
-      }
-      window.SUBMIT_BTN = null;
     },
 
     // 处理Ajax数据

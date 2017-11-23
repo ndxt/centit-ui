@@ -1,4 +1,4 @@
-define(['jquery'], function($) {
+define(['jquery', 'config'], function($, Config) {
 
   var LoadingInstance;
   function Loading() {
@@ -8,11 +8,13 @@ define(['jquery'], function($) {
 
   $.extend(Loading.prototype, {
 
-    template: '<div style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; z-index: 9999; background: #fff;"></div>',
+    template: '<div style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; z-index: 999999; background: #fff;">' +
+    '<div class="ajax-loader-icon" style="position: absolute; width: 42px; height: 42px; background: url('+ Config.ContextPath +'ui/themes/qui/less/images/loading.gif); top: 50%; left: 50%; margin: -21px 0 0 -21px;"></div>' +
+    '</div>',
 
     loadings: [],
 
-    timeout: 5 * 1000,
+    timeout: 20 * 1000,
 
     create: function(context) {
       // 只能在 panel-body 里创建 loading
