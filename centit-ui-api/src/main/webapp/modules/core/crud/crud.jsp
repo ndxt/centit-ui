@@ -3,17 +3,17 @@
 
 <div class="easyui-panel search-body" cls="search">
 	<form id="crudForm">
-		
+
 		<div class="search-item">
 			<label>日期</label>
 			<input type="text" class="easyui-datebox" name="s_date" />
 		</div>
-		
+
 		<div class="search-item">
 			<label>时间</label>
 			<input type="text" class="easyui-datetimebox" name="s_datetime" />
 		</div>
-		
+
 		<div class="search-item">
 			<label>下拉框</label>
 			<select class="easyui-combobox" name="s_state1" id="select">
@@ -70,7 +70,7 @@
 		        <option value="WY">Wyoming</option>
 		    </select>
 		</div>
-		
+
 		<div class="search-item">
 			<label>下拉框（多选）</label>
 			<select class="easyui-combobox" name="s_state2[]" id="select" multiple="true" style="width:300px;">
@@ -126,7 +126,7 @@
 		        <option value="WY">Wyoming</option>
 		    </select>
 		</div>
-		
+
 		<a class="easyui-linkbutton btn-search" iconCls="icon-search">搜索</a>
 	</form>
 </div>
@@ -135,7 +135,7 @@
         layoutH=".search"
         search=".search"
         toolbar=".temp-toolbar">
-        
+
     <thead>
         <tr>
             <th field="id" width="150" align="center">流水号</th>
@@ -156,17 +156,17 @@
     <hr>
     <a rel="detail" href="modules/core/crud/crud-detail.html" iconCls="icon-base icon-base-info"
        trigger="single" target="dialog" title="操作明细" buttons="[
-       	{method:'submit', text:'提交'}, 
+       	{method:'submit', text:'提交'},
        	{method:'next', text:'下一步', iconCls: 'icon-base icon-base-forward'}
        ]">明细</a>
-       
+
     <hr>
-    
+
     <a rel="detail_tab" href="modules/core/crud/crud-detail.html?id={{id}}" iconCls="icon-base icon-base-cap"
        trigger="single" target="tab" title="查看【{{id}}】明细TAB">TAB</a>
-       
+
     <hr>
-    
+
     <a rel="detail_state_0" href="modules/core/crud/crud-detail.html" iconCls="icon-base icon-base-music"
        trigger="single" target="dialog" title="状态【0】" id="test">【0】</a>
     <a rel="detail_state_13" href="modules/core/crud/crud-detail.html" iconCls="icon-base icon-base-tick"
@@ -182,7 +182,7 @@
         requirejs([
             'modules/core/crud/ctrl/crud'
         ], function(CRUD) {
-            new CRUD('CRUD', panel).load(panel);
+            new CRUD('CRUD', panel).init(panel);
         });
     };
 </script>

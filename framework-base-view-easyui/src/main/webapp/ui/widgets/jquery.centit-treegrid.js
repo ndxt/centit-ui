@@ -2,6 +2,7 @@ define(function (require) {
   var Core = require('core/core');
   var Dialog = require('centit/centit.dialog');
   var Mustache = require('plugins/mustache.min');
+  var Loading = require('plugins/loading');
 
   (function ($) {
     var _checkRows = function (type, opts) {
@@ -445,7 +446,7 @@ define(function (require) {
           $(this).attr('title',$(this).text());
         });
 
-
+        Loading.pop()
       }
     }
 

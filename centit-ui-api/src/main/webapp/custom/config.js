@@ -112,6 +112,8 @@ define(function (require) {
 
       // 系统尾部title
       FooterTitle: '项目的技术服务信息',
+
+      // panelLoading: true,
 //
 //            // 首页加载时缓冲动画效果
 //            LoadingAnimation: true,

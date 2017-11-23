@@ -2,6 +2,7 @@ define(function (require) {
   var Config = require('config');
   var Core = require('core/core');
   var Mustache = require('plugins/mustache.min');
+  var Loading = require('plugins/loading');
 
   // 页面对象
   var Page = Class.extend(function () {
@@ -63,6 +64,7 @@ define(function (require) {
       initPrintForm(panel);
 
       this.load(panel || this.panel, data || this.data);
+      Loading.pop();
     };
 
     this.beforeLoad = function (data) {
