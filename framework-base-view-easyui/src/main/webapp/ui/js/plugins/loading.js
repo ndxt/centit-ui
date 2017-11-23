@@ -18,7 +18,7 @@ define(['jquery', 'config'], function($, Config) {
 
     create: function(context) {
       // 只能在 panel-body 里创建 loading
-      if (!context || !context.is || !context.is('.panel-body')) return;
+      if (!context || !context.is || !context.is('.panel-body') || context.is('.messager-body')) return;
       return $(this.template).appendTo(context);
     },
 
