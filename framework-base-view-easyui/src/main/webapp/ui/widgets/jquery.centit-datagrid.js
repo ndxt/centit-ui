@@ -187,7 +187,10 @@ define(function (require) {
         rows = [table.datagrid('getRowData', index)];
       }
       else {
-        rows = table.datagrid('getChecked') || table.datagrid('getSelections');
+        var checked =  table.datagrid('getChecked');
+        var selected = table.datagrid('getSelections');
+
+        rows = selected.length > checked.length ? selected : checked;
       }
 
       // 无需选中任何行
