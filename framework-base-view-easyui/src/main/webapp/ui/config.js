@@ -204,7 +204,7 @@ define(function (require) {
     panelLoading: true,
 
     AjaxSend: function (event, state, options) {
-      console.log(options.url, options.type);
+      // console.log(options.url, options.type);
 
       if (['POST', 'PUT', 'DELETE'].indexOf(options.type) > -1) {
         window.ajaxCount = window.ajaxCount || 0;

@@ -756,8 +756,13 @@ define(function (require) {
 
       var searchFn = function () {
         var isValid = form.form('validate');
+        var value = form.form('value');
         if (isValid) {
-          table.datagrid('load', form.form('value'));
+          if (controller.beforeSearch(value) === false) {
+            return;
+          }
+
+          table.datagrid('load', value);
         }
       };
     };
