@@ -55,19 +55,19 @@ define(function (require) {
       //判断sizeMode的值
       if (OptionsSizeMode == 'custom') {//如果sizeMode为custom，则根据size的类型来设置弹出Dialog的大小
 
-        if (!opts.size){
-          opts.size='middle';
+        if (!opts.size) {
+          opts.size = 'middle';
         }
 
-        if (opts.size == 'small') {//小
+        if (opts.size === 'small') {//小
           opts.width = bodyW * dialogCustomOpts.smallWidth;
           opts.height = bodyH * dialogCustomOpts.smallHeight;
         }
-        if (opts.size == 'middle') {//中
+        if (opts.size === 'middle') {//中
           opts.width = bodyW * dialogCustomOpts.mediumWidth;
           opts.height = bodyH * dialogCustomOpts.mediumHeight;
         }
-        if (opts.size == 'fullscreen') {//大
+        if (opts.size === 'fullscreen') {//大
           opts.width = bodyW * dialogCustomOpts.largeWidth;
           opts.height = bodyH * dialogCustomOpts.largeHeight;
         }
@@ -77,10 +77,10 @@ define(function (require) {
         opts.width = opts.width;
         opts.height = opts.height;
 
-        if(!opts.width){
+        if (!opts.width) {
           opts.width = bodyW;
         }
-        if(!opts.height){
+        if (!opts.height) {
           opts.height = bodyH;
         }
 
@@ -91,8 +91,9 @@ define(function (require) {
         iconCls: opts.iconCls,
         handler: function () {
           var result = _checkRows.call(table, opts.trigger, opts);
+          var data = {};
 
-          if (result == false) {
+          if (result === false) {
             $.messager.alert('提示信息', opts.warn, 'info');
             return;
           }
@@ -100,7 +101,7 @@ define(function (require) {
           var title = opts.title, id = Mustache.render('dialog_{{id}}', {
             id: subCtrl.id
           });
-          if (opts.trigger == 'single') {
+          if (opts.trigger === 'single') {
             title = Mustache.render(opts.title, result);
           }
 
@@ -115,34 +116,36 @@ define(function (require) {
             // 提交按钮
             okValue: opts.btnValue,
             ok: function () {
-              return subCtrl.submit.call(subCtrl, subCtrl.panel, subCtrl.data, function () {
+              return subCtrl.submit.call(subCtrl, subCtrl.panel, subCtrl.data, function (value) {
+                data.value = value;
                 Dialog.close(id);
               });
             },
 
             // 页面加载事件
             onLoad: subCtrl.init,
+
             //关闭前事件
-            onBeforeClose: function() {
+            onBeforeClose: function () {
               var result = subCtrl.onBeforeClose.call(subCtrl, subCtrl.panel);
-              if(typeof result =='string'){
-                $.messager.alert("",result);
+              if (typeof result == 'string') {
+                $.messager.alert("", result);
                 return false;
               }
               return result;
             },
+
             // 关闭事件
-            onClose: function (data) {
-              subCtrl.onClose.call(subCtrl, table, data);
+            onClose: function () {
+              subCtrl.onClose.call(subCtrl, table, data.value);
             }
           };
-
 
           dialogOpts = $.extend({}, opts, dialogOpts);
 
           Dialog.open(dialogOpts, result);
         }
-      }
+      };
 
       return btn;
     };
@@ -225,7 +228,7 @@ define(function (require) {
       }
 
       btn = $.extend({}, opts, btn, {
-        id: 'datagrid_toolbar_'+opts.rel,
+        id: 'datagrid_toolbar_' + opts.rel,
         controller: subCtrl
       });
 
@@ -242,7 +245,7 @@ define(function (require) {
         $.fn.panel.parseOptions(target),
         $.fn.dialog.parseOptions(target),
         $.parser.parseOptions(target, [
-          'rel', 'trigger', 'target', 'title', 'warn', 'href', 'btnValue','size','sizeMode',
+          'rel', 'trigger', 'target', 'title', 'warn', 'href', 'btnValue', 'size', 'sizeMode',
           {width: 'number', height: 'number'}
         ]));
     };
@@ -295,13 +298,17 @@ define(function (require) {
         });
       }
       var searchFn = function () {
+        var value = form.form('value');
         var isValid = form.form('validate');
+
         if (isValid) {
-          table.treegrid('load', form.form('value'));
+          if (controller.beforeSearch(value) === false) {
+            return;
+          }
+          table.treegrid('load', value);
         }
       };
     };
-
 
 
     // 初始化编辑
@@ -313,7 +320,7 @@ define(function (require) {
       if (['onClickCell', 'onDblClickCell'].indexOf(trigger) > -1) {
         var oldFn = opts[trigger];
 
-        opts[trigger] = function(field, row) {
+        opts[trigger] = function (field, row) {
           table.ctreegrid('beginEdit', field, row);
 
           if (oldFn) {
@@ -329,7 +336,7 @@ define(function (require) {
       var table = this;
 
       // 点击文档其他位置关闭编辑
-      $(document).off('click.'+ctrl.id).on('click.'+ctrl.id, function(e) {
+      $(document).off('click.' + ctrl.id).on('click.' + ctrl.id, function (e) {
         var panel = table.datagrid('getPanel').find('.datagrid-view');
         if ($(e.target).closest(panel).length == 0) {
           table.ctreegrid('endEdit');
@@ -345,14 +352,14 @@ define(function (require) {
         // 防止重复绑定
         if (!disattachEndEditEvent) {
           if (oldOnBeforeClose) {
-            opts.onBeforeClose = function() {
-              $(document).off('click.'+ctrl.id);
+            opts.onBeforeClose = function () {
+              $(document).off('click.' + ctrl.id);
               oldOnBeforeClose.apply(this, arguments);
             }
           }
           else {
-            opts.onBeforeClose = function() {
-              $(document).off('click.'+ctrl.id);
+            opts.onBeforeClose = function () {
+              $(document).off('click.' + ctrl.id);
             }
           }
 
@@ -369,7 +376,7 @@ define(function (require) {
       var panel = table.datagrid('getPanel');
       var buttonOpts = table.data('buttons');
 
-      var buttons = panel.find('.datagrid-toolbar a').each(function() {
+      var buttons = panel.find('.datagrid-toolbar a').each(function () {
         var btn = $(this);
 
         var opts = buttonOpts[btn.attr('id')];
@@ -379,11 +386,30 @@ define(function (require) {
         }
       });
 
-      table.data('datagrid').options.onSelect = renderButtonEvent;
-      table.data('datagrid').options.onSelectAll = renderButtonEvent;
-      table.data('datagrid').options.onUnselect = renderButtonEvent;
-      table.data('datagrid').options.onUnselectAll = renderButtonEvent;
-      table.data('datagrid').options.onLoadSuccess = renderButtonEvent;
+      function override(obj, property, fn) {
+        var old = obj[property];
+
+        if (obj['__' + property]) return;
+        obj['__' + property] = true;
+
+        obj[property] = function () {
+          if (old && typeof old === 'function') {
+            old.apply(this, arguments);
+          }
+
+          fn.call(this)
+        }
+      }
+
+      var options = table.data('datagrid').options;
+      override(options, 'onCheck', renderButtonEvent);
+      override(options, 'onCheckAll', renderButtonEvent);
+      override(options, 'onUncheck', renderButtonEvent);
+      override(options, 'onUncheckAll', renderButtonEvent);
+      override(options, 'onSelect', renderButtonEvent);
+      override(options, 'onSelectAll', renderButtonEvent);
+      override(options, 'onUnselect', renderButtonEvent);
+      override(options, 'onUnselectAll', renderButtonEvent);
 
       renderButtonEvent.call(table);
     }
@@ -392,7 +418,7 @@ define(function (require) {
       var table = $(this), panel = table.datagrid('getPanel');
       var rows = table.datagrid('getSelections');
 
-      panel.find('.datagrid-toolbar a').each(function() {
+      panel.find('.datagrid-toolbar a').each(function () {
         var btn = $(this), trigger = btn.data('trigger'), renderButton = btn.data('controller').renderButton;
         var result;
 
@@ -426,7 +452,7 @@ define(function (require) {
     function renderContextMenu(table, opts) {
       table = $(table);
 
-      opts.onRowContextMenu = function(e, index, row) {
+      opts.onRowContextMenu = function (e, index, row) {
         e.preventDefault();
         table.treegrid('select', row[opts.idField]);
       }
@@ -435,15 +461,15 @@ define(function (require) {
     //鼠标放在列上显示title
     function showTitle(_table) {
       var table;
-      _table? table = $(_table):table = $(this);
+      _table ? table = $(_table) : table = $(this);
 
       var oldLoadSuccess = table.data('treegrid').options.onLoadSuccess;
       table.data('treegrid').options.onLoadSuccess = function () {
         if (oldLoadSuccess) {
           oldLoadSuccess.call(this);
         }
-        $('.datagrid-view').parent().find('.datagrid-body .datagrid-cell').each(function(){
-          $(this).attr('title',$(this).text());
+        $('.datagrid-view').parent().find('.datagrid-body .datagrid-cell').each(function () {
+          $(this).attr('title', $(this).text());
         });
 
         Loading.pop()
@@ -481,7 +507,7 @@ define(function (require) {
         editIndex: -1
       });
 
-      if (opts.showTitle){
+      if (opts.showTitle) {
         showTitle.call(target)
       }
 
@@ -520,8 +546,16 @@ define(function (require) {
     $.fn.ctreegrid.parseOptions = function (target) {
       var t = $(t);
       return $.extend({}, $.fn.datagrid.parseOptions(target), $.parser.parseOptions(target, [
-        'toolbar', 'search', 'layoutH', 'editTrigger','showTitle',
-        {editable: 'boolean',largeWidth: 'number',largeHeight: 'number',mediumWidth: 'number',mediumHeight: 'number',smallWidth: 'number',smallHeight: 'number'}
+        'toolbar', 'search', 'layoutH', 'editTrigger', 'showTitle',
+        {
+          editable: 'boolean',
+          largeWidth: 'number',
+          largeHeight: 'number',
+          mediumWidth: 'number',
+          mediumHeight: 'number',
+          smallWidth: 'number',
+          smallHeight: 'number'
+        }
       ]));
     };
 
@@ -531,7 +565,7 @@ define(function (require) {
       autoRowHeight: false,
       pagination: false,
       rownumbers: true,
-      sizeMode:'default',
+      sizeMode: 'default',
       singleSelect: true,
       largeWidth: 0.8,
       largeHeight: 0.8,
@@ -539,7 +573,7 @@ define(function (require) {
       mediumHeight: 0.6,
       smallWidth: 0.4,
       smallHeight: 0.4,
-      showTitle:'true',
+      showTitle: 'true',
       editable: false, editTrigger: 'onDblClickCell',
       loadFilter: function (data) {
         if (data.data) {
@@ -608,7 +642,7 @@ define(function (require) {
       },
 
       // 聚焦错误对象
-      focusInvalidEditor: function(index) {
+      focusInvalidEditor: function (index) {
         var tr = $.data(this, "datagrid").options.finder.getTr(this, index);
         tr.find(".validatebox-invalid:first").focus();
       },

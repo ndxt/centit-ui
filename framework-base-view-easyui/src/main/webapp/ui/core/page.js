@@ -88,6 +88,10 @@ define(function (require) {
     this.onBeforeClose = function (panel) {
     };
 
+    this.beforeSearch = function(value) {
+
+    };
+
     this.$afterEvents = {};
 
     this.$getRootLayout = function(panel) {
@@ -103,11 +107,11 @@ define(function (require) {
       if (layout.length) return layout;
     };
 
-    this.$autoHeight = function(region) {
+    this.$autoHeight = function(region, layout) {
 
       // 直接传入 panel 对象
       if ('object' === typeof region) {
-        if (!region.panel) return;
+        if (!region.is) return;
 
         return region.panel('resize')
       }
@@ -120,7 +124,7 @@ define(function (require) {
       }
       else {
         region = region || 'north';
-        var panel = root.layout('panel', region);
+        var panel = (layout || root).layout('panel', region);
         panel.panel('resize', {
           height: 'auto'
         });
