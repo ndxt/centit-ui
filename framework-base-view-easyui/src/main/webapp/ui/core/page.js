@@ -36,6 +36,34 @@ define(function (require) {
     };
 
     /**
+     * 递归遍历找子控制器
+     * @param name
+     * @param callback
+     */
+    this.$find = function(name, callback) {
+      var controller = find(this, name);
+      if (controller) {
+        callback(controller)
+      }
+      return controller;
+
+      function find(controller, name) {
+        var controllers = controller.controllers;
+
+        if (controllers[name]) {
+          return controllers[name];
+        }
+
+        for (var n in controllers) {
+          var c = find(controllers[n], name);
+          if (c) {
+            return c;
+          }
+        }
+      }
+    };
+
+    /**
      * 构造函数
      */
     this.constructor = function (id, panel) {
