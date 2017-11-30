@@ -35,6 +35,24 @@ define(function (require) {
 
     };
 
+    this.$findUp = function(name) {
+      var parents = [];
+      var scope = this;
+      var result;
+
+      while (scope) {
+        parents.unshift(scope);
+        scope = scope.parent;
+      }
+
+      for (var i = 0; i < parents.length; i++) {
+        result = parents[i][name];
+        if (result !== undefined) {
+          return result
+        }
+      }
+    };
+
     /**
      * 递归遍历找子控制器
      * @param name
