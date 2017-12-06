@@ -738,7 +738,7 @@ define(function (require) {
         });
 
         resetBtn.on('click', function () {
-          form.form('reset');
+          form.form('clear');
           if ($("a.icon-clear")) {//设置清除按钮图标为不可见
             $("a.icon-clear").css('visibility', 'hidden');
           }
