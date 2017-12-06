@@ -284,11 +284,20 @@ define(function (require) {
       search = panel.find(search);
 
       if (search.length) {
-        var form = search.find('form'), searchBtn = search.find('.btn-search');
-        //Enter键触发查询
+        var form = search.find('form'),
+          searchBtn = search.find('.btn-search'),
+          resetBtn = search.find('.btn-reset');
+
         search.keydown(function (e) {
           if (13 == e.keyCode) {
             searchFn();
+          }
+        });
+
+        resetBtn.on('click', function () {
+          form.form('clear');
+          if ($("a.icon-clear")) {//设置清除按钮图标为不可见
+            $("a.icon-clear").css('visibility', 'hidden');
           }
         });
 
@@ -297,6 +306,8 @@ define(function (require) {
           searchFn();
         });
       }
+
+
       var searchFn = function () {
         var value = form.form('value');
         var isValid = form.form('validate');
