@@ -4,7 +4,7 @@ define(['jquery', 'easyUI'], function ($) {
   function receiveMessage(data) {
     $.messager.show({
       title: '新消息',
-      msg: data.message,
+      msg: data.msgContent,
       showType: 'slide'
     });
   }
