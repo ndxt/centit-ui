@@ -1,38 +1,73 @@
 define(function(require) {
-	var io = require('socket.io');
-	
-	// 客户端
-	var socket = null;
-	
-	return {
-		init: init,
+  var Cache = require('core/cache');
+
+  // 客户端
+	var ws;
+  var Events = {};
+
+  return {
 		on: on
 	};
-	
+
 	///////////////////////////
-	
-	/**
-	 * 初始化
-	 */
-	function init(options, events) {
-		if (!options.enable || !options || !options.socket_host) return;
-		
-		var url = 'ws://' + options.socket_host + ':' + options.socket_port + '?userCode=' + options.userCode;
-		var socket = io(url);
-		
-		events = events || {};
-		for (var name in events) {
-			socket.on(name, events[name]);
-		}
-	}
-	
+
+  function _getContextPath() {
+    var match = location.href.match(/^(http:\/\/.*?\/.*?)\//)
+
+    if (match && match[1]) {
+      return match[1]
+    }
+  }
+
+  function init() {
+    var contextPath = _getContextPath();
+    var userCode = Cache.get('UserInfo').userCode;
+    var osId = 'default';
+    var wsHost;
+
+    if (contextPath) {
+      wsHost = contextPath.replace(/^http/, 'ws');
+    }
+
+    wsHost = wsHost + '/pusher/' + osId + '/' + userCode;
+
+    var socket = new WebSocket(wsHost);
+
+    socket.onopen = function() {
+      console.info('WebSocket: ' + wsHost + ' is opened');
+    };
+
+    socket.onclose = function() {
+      console.error('WebSocket: ' + wsHost + ' is closed');
+    };
+
+    socket.onmessage = function(res) {
+      var data = res.data;
+
+      try {
+        data = JSON.parse(res.data);
+      }
+      catch (e) {
+        // console.info(e)
+      }
+
+      if (Events[data.msgType]) {
+        Events[data.msgType](data)
+      }
+    };
+
+    return socket;
+  }
+
 	/**
 	 * 添加事件
 	 */
 	function on(name, callback) {
-		if (!socket) return;
-		
-		socket.on(name, callback)
+		if (!ws) {
+      init();
+    }
+
+		Events[name] = callback;
 	}
-	
+
 });

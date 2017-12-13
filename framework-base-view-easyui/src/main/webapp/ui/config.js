@@ -169,7 +169,7 @@ define(function (require) {
     ]
   };
   Cache = $.extend({}, Cache, {
-    Init: CustomConfig.Cache === false ? []: _.union(Cache.Init, CustomConfig.Cache.Init)
+    Init: CustomConfig.Cache === false ? [] : _.union(Cache.Init, CustomConfig.Cache.Init)
   });
 
   /**
@@ -202,6 +202,8 @@ define(function (require) {
     LoadingAnimation: true,
 
     panelLoading: true,
+
+    webSocket: false,
 
     AjaxSend: function (event, state, options) {
       // console.log(options.url, options.type);
