@@ -59,10 +59,7 @@ define(function (require) {
     })
 
     .then(function () {
-      // websocket服务
-      WebSocket.init(window.GLOBAL_IDENTIFY, {
-        msg: require('websocket/websocket.innermsg')
-      });
+      WebSocket.on('msg', require('websocket/websocket.innermsg'));
     })
 
     // 捕获错误（因为catch是IE8下面的关键字，为了保证兼容性用这种写法）
