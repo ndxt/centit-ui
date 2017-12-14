@@ -267,7 +267,8 @@ define(function (require) {
           case 401:
             window.location.href = ContextPath + 'system/mainframe/login';
             return Promise.reject(response);
-            break;
+          case 404:
+            return Promise.reject(response);
           case 500:
           case 400:
           case 403:
@@ -299,6 +300,10 @@ define(function (require) {
       if (response.status == null || 401 == response.status
         || 302 == response.status || 0 == response.status) { //302
         window.location.href = ContextPath + 'system/mainframe/login';
+        return Promise.reject(response);
+      }
+
+      if (response.status == 404) { //302
         return Promise.reject(response);
       }
 
