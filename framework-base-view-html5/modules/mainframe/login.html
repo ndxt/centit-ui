@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport"
+        content="width=device-width, initial-scale=1, maximum-scale=1">
+  <style type="text/css">
+    /*body{
+      background-image:url(/static/images/login-bg.png);
+    }*/
+    .login {
+      padding-top: 15%;
+      width: 26%;
+    }
+
+    .btn-center{
+      text-center:center;
+      margin:0 auto;
+    }
+  </style>
+  <title>框架登录页面</title>
+</head>
+<body>
+  <p class="login">
+
+    <form id="loginForm" name="loginForm">
+      <p >
+        <label>用户名：</label>
+        <p >
+          <input type="text" name="username" required
+                 placeholder="请输入用户名" autocomplete="off">
+        </p>
+      </p>
+      <p>
+        <label>密码：</label>
+        <p>
+          <input type="password" name="password" required
+                 placeholder="请输入密码" autocomplete="off">
+        </p>
+      </p>
+
+      <p>
+        <label>验证码：</label>
+        <p>
+          <input type="text"  name="j_checkcode" required
+                 placeholder="请输入密码" autocomplete="off" >
+          <img id="oimg" src="/framework/system/mainframe/captchaimage" onclick="onCaptchaClick(this)">
+        </p>
+
+      </p>
+      <input type="hidden"  name="LOCAL_LANG" id="LOCAL_LANG"  value="zh_CN"  />
+      <input type="hidden" name="_csrf" id="csrfInput" value="csrf" />
+
+      <p>
+        <label></label>
+        <button type="submit" >登录</button>
+      </p>
+    </form>
+  </p>
+
+  <script language="JavaScript">
+      fetch('/framework/system/mainframe/csrf', {credentials: 'include'}).then(function (response) {
+          if (response.ok) {
+              response.json().then(function (data) {
+                  document.getElementById("csrfInput").value = data.data.token;
+                  //console.log(data.data.token);
+              });
+          }
+      });
+
+      document.getElementById('loginForm').addEventListener('submit', onSubmitLogin);
+
+      function onCaptchaClick(oImg){
+        //var oImg=document.getElementById('oimg');
+        oImg.setAttribute('src','/framework/system/mainframe/captchaimage?'+Math.random());
+        //oImg.reload();
+      }
+
+      function onSubmitLogin(event){
+        event.preventDefault();
+        fetch('/framework/login', {
+          method:"post",
+          headers:{
+            "Content-type":"application:/x-www-form-urlencoded:charset=UTF-8"
+          },
+          credentials: 'include',
+          body:"username=" + loginForm.username.value
+                + "&password=" +loginForm.password.value
+                + "&j_checkcode" +loginForm.j_checkcode.value
+                + "&LOCAL_LANG" +loginForm.LOCAL_LANG.value
+                + "&_csrf" +loginForm._csrf.value
+          }).then(function (response) {
+            if (response.ok) {
+              window.location.href="/modules/mainframe/mainframe.html";
+            }
+          });
+      }
+  </script>
+
+</body>
+</html>
