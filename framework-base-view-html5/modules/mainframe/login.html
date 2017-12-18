@@ -78,17 +78,17 @@
 
       function onSubmitLogin(event){
         event.preventDefault();
-        fetch('/framework/login', {
+        fetch('/framework/login?ajax=true', {
           method:"post",
           headers:{
-            "Content-type":"application:/x-www-form-urlencoded:charset=UTF-8"
+            "Content-type":"application/x-www-form-urlencoded;charset=UTF-8"
           },
           credentials: 'include',
           body:"username=" + loginForm.username.value
                 + "&password=" +loginForm.password.value
-                + "&j_checkcode" +loginForm.j_checkcode.value
-                + "&LOCAL_LANG" +loginForm.LOCAL_LANG.value
-                + "&_csrf" +loginForm._csrf.value
+                + "&j_checkcode=" +loginForm.j_checkcode.value
+                + "&LOCAL_LANG=" +loginForm.LOCAL_LANG.value
+                + "&_csrf=" +loginForm._csrf.value
           }).then(function (response) {
             if (response.ok) {
               window.location.href="/modules/mainframe/mainframe.html";

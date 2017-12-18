@@ -12,20 +12,20 @@
 <body>
   <p class="mainframe">
     <label>当前用户信息</label>
-    <input type="textarea" id = "userDetail" name="userDetail"
-            autocomplete="off">
+    <textarea id = "userDetail" name="userDetail"
+           rows=20 autocomplete="off">
+      用户明细信息！
+    </textarea>
   </p>
 
   <script language="JavaScript">
     fetch('/framework/system/mainframe/currentuser', {credentials: 'include'}).then(function (response) {
       if (response.ok) {
         response.json().then(function (data) {
-          document.getElementById("userDetail").value = JSON.stringify(data.data);
-          //console.log(data.data.token);
+          document.getElementById("userDetail").innerText = JSON.stringify(data.data);
         });
       }
     });
-
 
   </script>
 
