@@ -118,8 +118,10 @@ define(function (require) {
       document.title = Config.System.Title;
       $('#title').text(Config.System.HeaderTitle);
       $('#footer').text(Config.System.FooterTitle);
-      var currentusername = Cache.get('UserInfo').userName || Cache.get('UserInfo').name;
-      $("<span>当前用户：" + currentusername + "</span>").appendTo("#header");
+
+      var User = Cache.get('UserInfo');
+      var userName = User.userInfo ? User.userInfo.userName : (User.userName || User.username || User.name);
+      $("<span>当前用户：" + userName + "</span>").appendTo("#header");
 
       $('<input style="margin-left: 10px;">')
         .appendTo($('#header > span'))
