@@ -1232,18 +1232,23 @@ define(function (require) {
 
         // 没有正在编辑的对象
         if (editIndex < 0) {
-          jq.datagrid('beginEdit', index);
+          _edit(index, field)
         }
         // 正在编辑的对象校验通过
         else if (jq.cdatagrid('endEdit', editIndex)) {
-          jq.datagrid('beginEdit', index);
+          _edit(index, field)
         }
         // 正在编辑的对象校验没通过
         else {
           return false;
         }
 
-        jq.cdatagrid('focusEditor', index, field);
+        function _edit(index, field) {
+          setTimeout(function() {
+            jq.datagrid('beginEdit', index);
+            jq.cdatagrid('focusEditor', index, field);
+          }, 100);
+        }
 
         // 重新设定编辑对象的index
         target.editIndex = index;
