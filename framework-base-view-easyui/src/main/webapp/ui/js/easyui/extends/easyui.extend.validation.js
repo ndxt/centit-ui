@@ -222,8 +222,20 @@ define(
                             return data[opts.textField]
                         });
                         var result;
-                        result = arrayHas(datas, value);
+                        var valueArray = value.split(',');//把字符串分割成数组
+                      // 多选择
+                      if (opts.multiple) {
+                        result = !valueArray.some(function(value) {
+                          return !arrayHas(datas, value);
+                        });
+                        $.fn.validatebox.defaults.rules.combotree.message = '请选择下拉框中的有效值，多个值之间用英文 , 分隔';
+                      }
+                      else {
+                        result = arrayHas(datas,valueArray);
+
                         $.fn.validatebox.defaults.rules.combotree.message = '请选择下拉框中的有效值';
+                      }
+
                         return result;},
 
                     message: '请选择下拉框中的有效值'
