@@ -155,12 +155,20 @@ a {
 	width: 25%;
 }
 
-.centit.form .field > label {
+.centit.form .field > label{
 	display: block;
 	margin: 0 0 5px;
 	color: #666;
 	font-weight: 700;
 	text-transform: none;
+}
+
+.centit.form .fields > label{
+  display: block;
+  margin: 15px 0 5px;
+  color: #666;
+  font-weight: 700;
+  text-transform: none;
 }
 
 .centit.form input[type=text], select {
