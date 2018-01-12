@@ -842,9 +842,15 @@ define(function (require) {
         if (!tablePanel.is(':visible')) return;
 
         // 点击表格外， 且在panel内任意地方触发取消编辑事件
-        if ($(e.target).closest(tablePanel).length == 0 && $(e.target).closest(ctrl.panel.closest('.panel')).length) {
+     /*   if ($(e.target).closest(tablePanel).length == 0 && $(e.target).closest(ctrl.panel.closest('.panel')).length) {
+          table.cdatagrid('endEdit');
+        }*/
+
+        // 点击在panel内任意地方触发取消编辑事件
+        if ($(e.target).closest(ctrl.panel.closest('.panel')).length) {
           table.cdatagrid('endEdit');
         }
+
       });
 
       // 当panel关闭时取消事件
