@@ -1,3 +1,0 @@
-var Local = {
-		alert: 'xxx'
-}
