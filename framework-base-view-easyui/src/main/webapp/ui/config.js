@@ -287,7 +287,6 @@ define(function (require) {
       return Promise.resolve(response);
     },
 
-
     // 处理Ajax错误数据
     AjaxErrorLoader: function (response) {
 
