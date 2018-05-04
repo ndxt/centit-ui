@@ -18,6 +18,7 @@ if (!Function.prototype.bind) {
   };
 }
 
+
 define(['jquery', 'config'], function($, Config) {
 
   var LoadingInstance;
