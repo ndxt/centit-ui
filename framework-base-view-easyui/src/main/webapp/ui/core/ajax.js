@@ -1,52 +1,52 @@
-define(function(require) {
-	/**
-	 * ES6异步写法
-	 *
-	 * 参考：
-	 * 	http://www.html5rocks.com/zh/tutorials/es6/promises/
-	 * 	https://github.com/jakearchibald/es6-promise
-	 */
-	require('plugins/es6-promise.min');
-	var $ = require('jquery');
-	var Cache = require('core/cache');
+define(function (require) {
+  /**
+   * ES6异步写法
+   *
+   * 参考：
+   *  http://www.html5rocks.com/zh/tutorials/es6/promises/
+   *  https://github.com/jakearchibald/es6-promise
+   */
+  require('plugins/es6-promise.min');
+  var $ = require('jquery');
+  var Cache = require('core/cache');
 
-	$.ajaxSetup({
-		contentType: "application/x-www-form-urlencoded; charset=utf-8"
+  $.ajaxSetup({
+    contentType: "application/x-www-form-urlencoded; charset=utf-8"
+  });
+
+  /**
+   * ES6异步写法重新封装ajax请求
+   */
+  var Ajax = {};
+
+  /**
+   * Promise封装$.ajax
+   */
+  Ajax.ajax = function (url, options, replaceFlag) {
+
+
+    options = $.extend({
+      dataType: 'json'
+    }, options);
+
+    options.data = $.extend({}, options.data, {
+      _r: Math.random(),
+      _csrf: csrf
     });
 
-	/**
-	 * ES6异步写法重新封装ajax请求
-	 */
-	var Ajax = {};
 
-	/**
-	 * Promise封装$.ajax
-	 */
-	Ajax.ajax = function (url, options, replaceFlag) {
+    var CHN = options.data;
+    for (var key in CHN) {
+      if (key === 's_unitName') {
+        CHN[key] = decodeURIComponent(CHN[key]);
+      }
+    }
 
 
-		var csrf = Cache.get('csrf') ? Cache.get('csrf')['token'] : null;
-
-		options = $.extend({
-			dataType: 'json'
-		}, options);
-
-		options.data = $.extend({}, options.data, {
-			_r: Math.random(),
-			_csrf: csrf
-		});
-
-		if (options.payload) {
-		  options.contentType = 'application/json';
+    if (options.payload) {
+      options.contentType = 'application/json';
       options.data = JSON.stringify(options.data);
     } else {
-
-      var CHN =	options.data;
-      for (var key in CHN) {
-        if (key === 's_unitName') {
-          CHN[key] = decodeURIComponent(CHN[key]);
-        }
-      }
 
 
       var params = $.param(options.data, false);
@@ -64,46 +64,46 @@ define(function(require) {
       options.data = params;
     }
 
-		return new Promise(function(resole, reject) {
-			options = $.extend(true, {}, options, {
-				success: function(data, textStatus, jqXHR) {
-					resole(data, textStatus, jqXHR);
-				},
+    return new Promise(function (resole, reject) {
+      options = $.extend(true, {}, options, {
+        success: function (data, textStatus, jqXHR) {
+          resole(data, textStatus, jqXHR);
+        },
 
-				error: function(result) {
-					reject(result);
-				}
-			});
+        error: function (result) {
+          reject(result);
+        }
+      });
 
-			$.ajax(url, options);
-		});
-	};
+      $.ajax(url, options);
+    });
+  };
 
-	/**
-	 * Promise封装$.getHTML
-	 * @param url
-	 * @param options
-	 */
-	Ajax.getHTML = function(url, options) {
-		options = $.extend({}, options, {
-			method: 'get',
-			dataType : 'html'
-		});
+  /**
+   * Promise封装$.getHTML
+   * @param url
+   * @param options
+   */
+  Ajax.getHTML = function (url, options) {
+    options = $.extend({}, options, {
+      method: 'get',
+      dataType: 'html'
+    });
 
-		return Ajax.ajax(url, options, true);
-	};
+    return Ajax.ajax(url, options, true);
+  };
 
-	/**
-	 * Promise封装$.getJSON
-	 */
-	Ajax.getJSON = function(url, options) {
-		options = $.extend({}, options, {
-			method: 'get',
-			dataType : 'json'
-		});
+  /**
+   * Promise封装$.getJSON
+   */
+  Ajax.getJSON = function (url, options) {
+    options = $.extend({}, options, {
+      method: 'get',
+      dataType: 'json'
+    });
 
-		return Ajax.ajax(url, options);
-	};
+    return Ajax.ajax(url, options);
+  };
 
-	return Ajax;
+  return Ajax;
 });
