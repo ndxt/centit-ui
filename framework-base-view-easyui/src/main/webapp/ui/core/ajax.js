@@ -37,9 +37,7 @@ define(function (require) {
 
     var CHN = options.data;
     for (var key in CHN) {
-      if (key === 's_unitName') {
         CHN[key] = decodeURIComponent(CHN[key]);
-      }
     }
 
 
