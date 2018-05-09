@@ -40,6 +40,15 @@ define(function(require) {
 		  options.contentType = 'application/json';
       options.data = JSON.stringify(options.data);
     } else {
+
+      var CHN =	options.data;
+      for (var key in CHN) {
+        if (key === 's_unitName') {
+          CHN[key] = decodeURIComponent(CHN[key]);
+        }
+      }
+
+
       var params = $.param(options.data, false);
       params = decodeURIComponent(params);
 
