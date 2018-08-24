@@ -6,7 +6,7 @@
   <parent>
     <artifactId>centit-ui</artifactId>
     <groupId>com.centit.framework</groupId>
-    <version>3.1-SNAPSHOT</version>
+    <version>3.1.1808</version>
   </parent>
   <modelVersion>4.0.0</modelVersion>
 
@@ -21,7 +21,7 @@
     <dependency>
       <groupId>com.centit.framework</groupId>
       <artifactId>framework-base-view-easyui</artifactId>
-      <version>${centit.ui.version}</version>
+      <version>${project.version}</version>
     </dependency>
   </dependencies>
 </project>
