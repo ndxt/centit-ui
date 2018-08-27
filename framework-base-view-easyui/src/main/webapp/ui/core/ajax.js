@@ -31,7 +31,7 @@ define(function (require) {
 
     options.data = $.extend({}, options.data, {
       _r: Math.random(),
-      _csrf: csrf
+      _csrf: Cache.get('csrf')
     });
 
 
