@@ -34,13 +34,6 @@ define(function (require) {
       _csrf: Cache.get('csrf')
     });
 
-
-    var CHN = options.data;
-    for (var key in CHN) {
-        CHN[key] = decodeURIComponent(CHN[key]);
-    }
-
-
     if (options.payload) {
       options.contentType = 'application/json';
       options.data = JSON.stringify(options.data);
