@@ -1,5 +1,7 @@
 # 先腾前端框架啊设计思路
 
+可以参考[miniui](http://www.miniui.com/demo/)。
+
 ## 技术框架
  
 ### 技术路线
