@@ -12,7 +12,7 @@
   <modelVersion>4.0.0</modelVersion>
 
   <artifactId>centit-ui</artifactId>
-  <version>3.1.1809</version>
+  <version>3.1-SNAPSHOT</version>
   <packaging>pom</packaging>
   <name>com.centit.framework:centit-ui</name>
   <description>南大先腾前端框架
@@ -95,7 +95,6 @@
 
   <modules>
     <module>framework-base-view-easyui</module>
-    <module>centit-ui-api</module>
   </modules>
 
   <build>
@@ -154,8 +153,7 @@
       </plugin>
 
       <!-- GPG自动签名的插件 -->
-<!--
-      <plugin>
+      <!--<plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-gpg-plugin</artifactId>
         <version>1.6</version>
