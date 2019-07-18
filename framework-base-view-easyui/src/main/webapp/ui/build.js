@@ -1,66 +1,115 @@
 ({
-    baseUrl: './',
-    paths: {
-        jquery: 'js/jquery/jquery-1.11.2.min',
+  baseUrl: './',
 
-        easyUI: 'js/easyui/1.4.2/jquery.easyui.min',
+  paths: {
+    jquery: 'js/jquery/jquery-1.11.2.min',
 
-        codeMirror: 'js/plugins/codemirror/codemirror',
+    'ueditor': 'js/plugins/ueditor/ueditor.all',
 
-        yepnope: 'js/plugins/yepnope/yepnope-1.5.4.min',
+    'quill': 'js/plugins/quill/1.2.4/quill',
 
-        fullcalendar: 'js/plugins/fullcalendar/zh-cn',
+    'socket.io': 'js/plugins/socket.io-1.3.7',
 
-        moment: 'js/plugins/moment.min',
+    underscore: 'js/plugins/underscore/underscore-min',
 
-        // 用户自定义参数文件路径
-        custom: '../custom',
+    easyUI: 'js/easyui/1.5.2/jquery.easyui.min',
 
-        modules: '../modules',
+    codeMirror: 'js/plugins/codemirror/codemirror',
 
-        centit: 'js/centit',
+    yepnope: 'js/plugins/yepnope/yepnope-1.5.4.min',
 
-        loaders: 'js/loaders',
+    fullcalendar: 'js/plugins/fullcalendar-3.0.1/locale/zh-cn',
 
-        plugins: 'js/plugins',
+    moment: 'js/plugins/moment.min',
 
-        style: 'css'
+    uploader: 'js/plugins/uploader/uploader',
 
+    dropmenu: 'js/plugins/dropmenu/js/dropmenu',
+
+    // 用户自定义参数文件路径
+    custom: '../custom',
+
+    modules: '../modules',
+
+    centit: 'js/centit',
+
+    loaders: 'js/loaders',
+
+    plugins: 'js/plugins',
+
+    websocket: 'js/websocket',
+
+    myuploader: 'widgets/uploader/centit.uploader',
+
+    style: 'css',
+
+    locale: 'js/easyui/1.5.2/locale/easyui-lang-zh_CN',
+
+    spark: 'js/plugins/spark-md5.min',
+
+    fileMD5: 'js/plugins/file.md5'
+
+  },
+
+  shim: {
+    ueditor: {
+      deps: ['plugins/ueditor/third-party/zeroclipboard/ZeroClipboard', 'plugins/ueditor/ueditor.config'],
+      exports: 'UE',
+      init: function (ZeroClipboard) {
+        window.ZeroClipboard = ZeroClipboard;
+      }
     },
 
-    shim: {
-        easyUI : {
-            deps: ['jquery', 'css!style/easyui/style.css', 'css!style/icon.css'],
-
-            init: function($) {
-                $.parser.auto = false;
-            }
-        },
-
-        codeMirror: {
-            deps: [
-                'js/plugins/codemirror/mode/xml/xml',
-                'js/plugins/codemirror/mode/css/css',
-                'js/plugins/codemirror/mode/javascript/javascript',
-                'css!plugins/codemirror/codemirror.css'
-            ]
-        },
-
-        fullcalendar: {
-            deps: [
-                'js/plugins/fullcalendar/fullcalendar',
-                'css!js/plugins/fullcalendar/fullcalendar.css'
-            ]
-        }
+    quill: {
+      deps: ['css!plugins/quill/1.2.4/quill.snow.css'],
+      exports: 'Quill'
     },
-    
-	map: {
-		'*' : {
-			'css' : 'js/css.min',
-			'text' : 'js/text'
-		}
-	},
-	optimizeCss: "standard",
-    name: "app",
-	out: "app-built.js"
+
+    uploader: {
+      deps: ['fileMD5', 'css!plugins/uploader/uploader.css', 'css!widgets/uploader/centit.uploader.css'],
+      init: function (FileMD5) {
+        window.FileMD5 = FileMD5;
+      },
+      exports: 'Stream'
+    },
+
+    easyUI: {
+      deps: ['jquery', 'css!style/icon.css'],
+
+      init: function ($) {
+        $.parser.auto = false;
+      }
+    },
+
+    dropmenu: {
+      deps: ['css!plugins/dropmenu/css/dropmenu.css']
+    },
+
+    codeMirror: {
+      deps: [
+        'js/plugins/codemirror/mode/xml/xml',
+        'js/plugins/codemirror/mode/css/css',
+        'js/plugins/codemirror/mode/javascript/javascript',
+        'css!plugins/codemirror/codemirror.css'
+      ]
+    },
+
+    fullcalendar: {
+      deps: [
+        'js/plugins/fullcalendar-3.0.1/fullcalendar.min',
+        'css!js/plugins/fullcalendar-3.0.1/fullcalendar.min.css'
+      ]
+    }
+  },
+
+  map: {
+    '*': {
+      'css': 'js/css.min',
+      'text': 'js/text'
+    }
+  },
+
+  name: "main",
+
+  out: "main-built.js"
 })
