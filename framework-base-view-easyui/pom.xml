@@ -5,7 +5,7 @@
     <parent>
         <artifactId>centit-ui</artifactId>
         <groupId>com.centit.framework</groupId>
-        <version>3.1-SNAPSHOT</version>
+        <version>3.1.1809</version>
     </parent>
     <modelVersion>4.0.0</modelVersion>
 

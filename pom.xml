@@ -12,7 +12,7 @@
   <modelVersion>4.0.0</modelVersion>
 
   <artifactId>centit-ui</artifactId>
-  <version>3.1-SNAPSHOT</version>
+  <version>3.1.1809</version>
   <packaging>pom</packaging>
   <name>com.centit.framework:centit-ui</name>
   <description>南大先腾前端框架

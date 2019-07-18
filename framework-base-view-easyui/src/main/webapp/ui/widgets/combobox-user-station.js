@@ -4,9 +4,9 @@ define(function (require) {
     var Core = require('core/core');
     var Mustache = require('plugins/mustache.min');
 
-    var queryUrl = Config.ContextPath + 'system/mainframe/userpositions';
-    var currentUrl = Config.ContextPath + 'system/mainframe/usercurrposition';
-    var setUrl = Config.ContextPath + 'system/mainframe/setuserposition/{{userUnitId}}';
+    var queryUrl = Config.ContextPath + 'system/mainframe/userstations';
+    var currentUrl = Config.ContextPath + 'system/mainframe/usercurrstation';
+    var setUrl = Config.ContextPath + 'system/mainframe/setuserstation/{{userUnitId}}';
 
     $.fn.comboboxUserStation = function (options) {
         var target = this;
