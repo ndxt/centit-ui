@@ -20,12 +20,8 @@ define(['jquery', 'uploader', 'config', 'core/core', 'underscore'], function($, 
     '	<a class="uploaded-delete" href="javascript: void(0);">删除</a>'+
     '</li>';
 
-  var ViewContextPath = '/product-uploader/';
-  var UploaderPath = '/product-uploader/';
-
-
-
-
+  var ViewContextPath = 'fileserver';//'/product-uploader/';
+  var UploaderPath = '/fileserver/';
 
   function getFilePanel(uploader) {
     var panel = $(uploader.startPanel),
@@ -41,7 +37,7 @@ define(['jquery', 'uploader', 'config', 'core/core', 'underscore'], function($, 
   }
 
   function generateDownloadUrl(fileId) {
-    return UploaderPath + "service/download/pfile/" + fileId;
+    return UploaderPath + "fileserver/download/pfile/" + fileId;
   }
 
   function addFileId(input, fileId) {
@@ -91,7 +87,7 @@ define(['jquery', 'uploader', 'config', 'core/core', 'underscore'], function($, 
       $.messager.confirm('删除文件', Mustache.render('是否确定删除 {{name}} ？', file), function(r) {
         if (!r) return;
 
-        Core.ajax(UploaderPath + 'service/files/' + id, {
+        Core.ajax(UploaderPath + 'fileserver/files/' + id, {
           method: 'DELETE'
         }).then(function() {
           removeFileId(input, id);
@@ -158,9 +154,9 @@ define(['jquery', 'uploader', 'config', 'core/core', 'underscore'], function($, 
         postVarsPerFile : { /** 上传文件时传入的参数，默认: {} */},
         swfURL : ViewContextPath + "ui/js/plugins/uploader/swf/FlashUploader.swf", /** SWF文件的位置 */
         server:UploaderPath,
-        tokenURL : UploaderPath + "service/upload/tk", /** 根据文件名、大小等信息获取Token的URI（用于生成断点续传、跨域的令牌） */
-        frmUploadURL : UploaderPath + "service/upload/file", /** Flash上传的URI */
-        uploadURL : UploaderPath + "service/upload/range", /** HTML5上传的URI */
+        tokenURL : UploaderPath + "fileserver/upload/tk", /** 根据文件名、大小等信息获取Token的URI（用于生成断点续传、跨域的令牌） */
+        frmUploadURL : UploaderPath + "fileserver/upload/file", /** Flash上传的URI */
+        uploadURL : UploaderPath + "fileserver/upload/range", /** HTML5上传的URI */
         simLimit: 200, /** 单次最大上传文件个数 */
         extFilters: [], /** 允许的文件扩展名, 默认: [] */
         onSelect: function(list) {}, /** 选择文件后的响应事件 */
@@ -194,7 +190,7 @@ define(['jquery', 'uploader', 'config', 'core/core', 'underscore'], function($, 
       debugger;
       $.each(values, function(index, value) {
         if (value) {
-          Core.ajax(UploaderPath + 'service/files', {
+          Core.ajax(UploaderPath + 'fileserver/files', {
             data: {
               s_files: value
             }
