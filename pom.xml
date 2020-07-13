@@ -6,13 +6,13 @@
   <parent>
     <artifactId>centit-framework-dependencies</artifactId>
     <groupId>com.centit.framework</groupId>
-    <version>1.1.1809</version>
+    <version>1.2.2007</version>
   </parent>
 
   <modelVersion>4.0.0</modelVersion>
 
   <artifactId>centit-ui</artifactId>
-  <version>3.1-SNAPSHOT</version>
+  <version>3.1.2007</version>
   <packaging>pom</packaging>
   <name>com.centit.framework:centit-ui</name>
   <description>南大先腾前端框架
@@ -153,7 +153,7 @@
       </plugin>
 
       <!-- GPG自动签名的插件 -->
-      <!--<plugin>
+      <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-gpg-plugin</artifactId>
         <version>1.6</version>
@@ -168,8 +168,8 @@
         </executions>
       </plugin>
 
-      &lt;!&ndash; sonatype release :
-          mvn nexus-staging:release &ndash;&gt;
+      <!-- sonatype release :
+          mvn nexus-staging:release -->
 
       <plugin>
         <groupId>org.sonatype.plugins</groupId>
@@ -181,7 +181,7 @@
           <nexusUrl>https://oss.sonatype.org/</nexusUrl>
           <autoReleaseAfterClose>true</autoReleaseAfterClose>
         </configuration>
-      </plugin>-->
+      </plugin>
 
     </plugins>
   </build>
